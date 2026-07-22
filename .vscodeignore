@@ -1,0 +1,9 @@
+.vscode/**
+.vscode-test/**
+src/**
+test/**
+.github/**
+tsconfig.json
+jest.config.js
+*.vsix
+.gitignore
