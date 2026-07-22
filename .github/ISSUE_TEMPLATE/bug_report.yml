@@ -1,19 +1,73 @@
 name: 🐛 Bug Report (Relato de Bug)
 description: Crie um relatório para nos ajudar a identificar e corrigir um problema no BigON.
 title: "[BUG]: "
-labels: ["bug"]
+labels:
+  - bug
+
 body:
   - type: markdown
     attributes:
       value: |
-        Obrigado por dedicar seu tempo para relatar este problema! Preencha as informações abaixo para nos ajudar a reproduzir e resolver o bug o mais rápido possível.
+        Obrigado por dedicar seu tempo para relatar este problema!
+
+        Preencha as informações abaixo para nos ajudar a reproduzir e corrigir o bug o mais rápido possível.
+
+        **Antes de enviar:**
+        - Verifique se o problema ainda ocorre na versão mais recente da extensão.
+        - Remova informações sensíveis dos logs ou do código antes de anexá-los.
 
   - type: input
-    id: environment
+    id: extension_version
     attributes:
-      label: 🖥️ Ambiente e Versões
-      description: Informe a versão do VS Code/Editor e o Sistema Operacional.
-      placeholder: "ex: VS Code 1.85.0 em Windows 11 / Node.js v20"
+      label: 📦 Versão do BigON
+      description: Informe a versão da extensão instalada.
+      placeholder: "Ex: v1.2.0"
+    validations:
+      required: true
+
+  - type: input
+    id: vscode_version
+    attributes:
+      label: 💻 Versão do VS Code
+      description: Informe a versão do VS Code.
+      placeholder: "Ex: 1.105.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: 🖥️ Sistema Operacional
+      description: Selecione o sistema operacional utilizado.
+      options:
+        - Windows
+        - Linux
+        - macOS
+        - Outro
+    validations:
+      required: true
+
+  - type: dropdown
+    id: language
+    attributes:
+      label: 📄 Linguagem analisada
+      description: Em qual linguagem o problema ocorreu?
+      options:
+        - TypeScript
+        - JavaScript
+        - Outra
+    validations:
+      required: true
+
+  - type: dropdown
+    id: reproducible
+    attributes:
+      label: 🔁 O problema é reproduzível?
+      description: Com que frequência o problema acontece?
+      options:
+        - Sempre
+        - Às vezes
+        - Apenas uma vez
     validations:
       required: true
 
@@ -21,45 +75,86 @@ body:
     id: description
     attributes:
       label: 📝 Descrição do Bug
-      description: Uma descrição clara e concisa do comportamento incorreto ou do erro encontrado.
-      placeholder: "Ex: O CodeLens exibe O(1) mesmo quando a função possui um laço for linear..."
+      description: Descreva claramente o comportamento incorreto observado.
+      placeholder: |
+        Exemplo:
+        O CodeLens exibe O(1) mesmo quando a função possui um laço `for` linear.
     validations:
       required: true
 
   - type: textarea
     id: reproduction
     attributes:
-      label: 🕒 Passo a Passo para Reproduzir
-      description: Sequência detalhada de passos para reproduzir o comportamento.
+      label: 🧪 Passos para Reproduzir
+      description: Informe o passo a passo para reproduzir o problema.
       placeholder: |
         1. Abra um arquivo TypeScript (.ts)
-        2. Escreva o seguinte código: ...
-        3. Observe a decoração / CodeLens no editor
+        2. Escreva o código abaixo
+        3. Salve o arquivo
+        4. Observe o CodeLens exibido
     validations:
       required: true
 
   - type: textarea
     id: expected
     attributes:
-      label: 🎯 Comportamento Esperado
-      description: Uma descrição clara e concisa do que você esperava que acontecesse.
-      placeholder: "Esperava que a complexidade de tempo calculada fosse O(n)."
+      label: ✅ Comportamento Esperado
+      description: O que deveria acontecer?
+      placeholder: |
+        Esperava que a complexidade calculada fosse O(n).
     validations:
-      required: false
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: ❌ Comportamento Atual
+      description: O que realmente aconteceu?
+      placeholder: |
+        A extensão retornou O(1).
+    validations:
+      required: true
 
   - type: textarea
     id: code_example
     attributes:
       label: 📄 Código para Reprodução
-      description: Cole aqui o trecho de código-fonte onde a análise da AST falhou ou apresentou erro.
+      description: Cole um trecho mínimo de código que reproduza o problema.
       render: typescript
+      placeholder: |
+        function example(arr: number[]) {
+          for (const item of arr) {
+            console.log(item);
+          }
+        }
     validations:
       required: false
 
   - type: textarea
-    id: logs_screenshots
+    id: logs
     attributes:
-      label: 📷 Logs / Capturas de Tela
-      description: Adicione logs do console do VS Code ou capturas de tela se ajudar a explicar o problema.
+      label: 📋 Logs
+      description: Cole mensagens de erro, stack traces ou logs do console do VS Code, se houver.
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 📷 Capturas de Tela
+      description: Adicione imagens ou GIFs que ajudem a ilustrar o problema.
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: 💬 Informações Adicionais
+      description: Inclua qualquer outra informação que possa ajudar na investigação.
+      placeholder: |
+        Exemplo:
+        - O problema começou após atualizar a extensão.
+        - O erro ocorre apenas em projetos grandes.
     validations:
       required: false

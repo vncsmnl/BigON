@@ -1,35 +1,79 @@
 name: 🚀 Feature Request (Sugestão de Funcionalidade)
-description: Sugira uma nova ideia, suporte a novo padrão ou melhoria para a extensão BigON.
+description: Sugira uma nova funcionalidade, suporte a padrões de código ou melhoria para a extensão BigON.
 title: "[FEATURE]: "
-labels: ["enhancement"]
+labels:
+  - enhancement
+
 body:
   - type: markdown
     attributes:
       value: |
-        Obrigado por sugerir melhorias para o BigON! Suas ideias ajudam a tornar a análise de complexidade cada vez mais completa.
+        Obrigado por contribuir com o desenvolvimento do BigON!
+
+        Suas sugestões ajudam a melhorar a análise de complexidade, aumentar a cobertura de padrões de código e tornar a experiência no editor cada vez melhor.
+
+        Antes de enviar:
+        - Verifique se já existe uma issue semelhante.
+        - Explique o problema que a funcionalidade resolve sempre que possível.
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: 🏷️ Categoria da Sugestão
+      description: Qual área da extensão essa sugestão afeta?
+      options:
+        - Novo padrão de código / AST
+        - Melhoria no cálculo de complexidade
+        - Suporte a nova linguagem
+        - Melhoria no CodeLens
+        - Interface / Experiência do Usuário
+        - Outro
+    validations:
+      required: true
 
   - type: textarea
     id: problem
     attributes:
-      label: 🤔 Qual problema ou limitação sua sugestão resolve?
-      description: Uma descrição clara do problema ou de padrões de código que atualmente não são analisados corretamente.
-      placeholder: "Ex: Atualmente laços do tipo 'do-while' não são reconhecidos pelo analisador de AST..."
+      label: 🤔 Problema ou Limitação Atual
+      description: Descreva o problema, limitação ou cenário que motivou esta sugestão.
+      placeholder: |
+        Exemplo:
+        Atualmente estruturas `do-while` não são identificadas pelo analisador de AST,
+        causando resultados incorretos na análise de complexidade.
     validations:
-      required: false
+      required: true
 
   - type: textarea
     id: solution
     attributes:
       label: 🎯 Solução Proposta
-      description: Descreva detalhadamente a funcionalidade ou comportamento que você gostaria de ver implementado.
+      description: Descreva como você imagina que essa funcionalidade deveria funcionar.
+      placeholder: |
+        Exemplo:
+        Adicionar suporte ao nó `DoStatement` da AST e considerar o laço
+        no cálculo da complexidade temporal.
     validations:
       required: true
+
+  - type: textarea
+    id: benefits
+    attributes:
+      label: 📈 Benefícios Esperados
+      description: Explique qual impacto positivo essa melhoria traria.
+      placeholder: |
+        Exemplo:
+        Permitir análises mais precisas em projetos que utilizam esse padrão.
+    validations:
+      required: false
 
   - type: textarea
     id: alternatives
     attributes:
       label: 🔄 Alternativas Consideradas
-      description: Descreva soluções ou abordagens alternativas que você considerou.
+      description: Descreva outras soluções ou abordagens que você considerou.
+      placeholder: |
+        Exemplo:
+        Criar uma regra separada para esse tipo de estrutura.
     validations:
       required: false
 
@@ -37,8 +81,26 @@ body:
     id: code_example
     attributes:
       label: 📄 Exemplo de Código / Caso de Uso
-      description: Se for suporte a um novo padrão de código, forneça um exemplo em TypeScript/JavaScript.
+      description: Caso envolva análise de código, forneça um exemplo mínimo em TypeScript ou JavaScript.
       render: typescript
+      placeholder: |
+        function example(items: number[]) {
+          do {
+            console.log(items);
+          } while (items.length > 0);
+        }
+    validations:
+      required: false
+
+  - type: textarea
+    id: references
+    attributes:
+      label: 🔗 Referências ou Exemplos
+      description: Adicione links, documentação, ferramentas similares ou exemplos que possam ajudar.
+      placeholder: |
+        Exemplo:
+        - Documentação oficial
+        - Implementação semelhante em outra ferramenta
     validations:
       required: false
 
@@ -46,6 +108,6 @@ body:
     id: additional_context
     attributes:
       label: 📝 Contexto Adicional
-      description: Adicione qualquer outra informação, imagens ou links relevantes sobre esta sugestão.
+      description: Adicione qualquer outra informação, imagem ou detalhe relevante.
     validations:
       required: false
