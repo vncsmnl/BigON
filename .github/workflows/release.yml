@@ -1,0 +1,90 @@
+name: Release CI/CD
+
+on:
+  push:
+    tags:
+      - 'v*'
+      - '[0-9]*'
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Tag manual para Release (ex: v1.0.1)'
+        required: false
+        type: string
+
+jobs:
+  build-and-release:
+    name: Build & Publish Release
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Compile extension
+        run: npm run compile
+
+      - name: Run tests
+        run: npm test
+
+      - name: Extract Release Notes from CHANGELOG.md (using AWK)
+        id: extract_changelog
+        run: |
+          # Obter nome da tag (sem o prefixo 'v' se houver)
+          TAG_NAME="${{ inputs.tag_name || github.ref_name }}"
+          VERSION="${TAG_NAME#v}"
+          echo "Extraindo notas para a versão: $VERSION"
+
+          # Localizar arquivo de changelog (CHANGELOG.md ou changelog.md)
+          CHANGELOG_FILE="CHANGELOG.md"
+          if [ ! -f "$CHANGELOG_FILE" ] && [ -f "changelog.md" ]; then
+            CHANGELOG_FILE="changelog.md"
+          fi
+
+          # Executar AWK para capturar o bloco entre ## [VERSION] e o próximo ##
+          awk -v ver="$VERSION" '
+            BEGIN { flag = 0 }
+            $0 ~ "^## \\[" ver "\\]" || $0 ~ "^## " ver { flag = 1; next }
+            /^## / && flag { flag = 0 }
+            flag { print }
+          ' "$CHANGELOG_FILE" > release_notes.md
+
+          # Se a seção estiver vazia no CHANGELOG, define mensagem de fallback
+          if [ ! -s release_notes.md ]; then
+            echo "## Release $TAG_NAME" > release_notes.md
+            echo "" >> release_notes.md
+            echo "Consulte o CHANGELOG.md para mais detalhes sobre esta versão." >> release_notes.md
+          fi
+
+          echo "--- RELEASE NOTES GERADAS ---"
+          cat release_notes.md
+          echo "-----------------------------"
+
+      - name: Build VSIX Package
+        run: npx @vscode/vsce package
+
+      - name: Create GitHub Release and Upload VSIX
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag_name || github.ref_name }}
+          name: Release ${{ inputs.tag_name || github.ref_name }}
+          body_path: release_notes.md
+          files: "*.vsix"
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

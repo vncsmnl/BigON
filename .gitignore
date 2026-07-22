@@ -144,7 +144,10 @@ vite.config.ts.timestamp-*
 
 #VSCode
 .vscode/
+*.vsix
+release_notes.md
 
 #Outros
 .idea/
+
 
