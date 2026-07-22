@@ -2,10 +2,6 @@
 
 <div align="center">
   <img src="./assets/logo.png" alt="BigON Logo" width="40%" height="40%">
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1f3f765cc2b4c65fa0ecdd65c3087003f3976970
 </div>
 
 ## Proposta da Extensão
@@ -26,13 +22,10 @@ Diferente de profilings de execução, o BigON realiza **análise estática** at
   <br><br>
   <p><b>Painel de Explicação Assintótica Interativo</b></p>
   <img src="./assets/webview.png" alt="BigON Webview" width="100%">
-=======
->>>>>>> 3fd2abfd33f4079f051c8139a2721bc3e8981bb1
 </div>
 
 ---
 
-<<<<<<< HEAD
 ## Como Baixar e Instalar
 
 =======
@@ -60,7 +53,6 @@ Diferente de profilings de execução, o BigON realiza **análise estática** at
 
 ## Como Baixar e Instalar
 
->>>>>>> 3fd2abfd33f4079f051c8139a2721bc3e8981bb1
 Você pode instalar o **BigON** diretamente pelo Marketplace do seu editor ou manualmente via pacote `.vsix`.
 
 ### 1. Pelo Marketplace (Recomendado)
