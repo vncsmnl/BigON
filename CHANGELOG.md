@@ -36,7 +36,7 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/spec
 ## [1.0.0] - 2026-07-22
 
 ### Added
-- **Análise Estática via AST**: Análise de complexidade assintótica de Tempo ($O$) e Espaço ($O$) para JavaScript/TypeScript, Python, Ruby, C e C++.
+- **Análise Estática via AST**: Análise de complexidade assintótica de Tempo (`O`) e Espaço (`O`) para JavaScript/TypeScript, Python, Ruby, C e C++.
 - **Motor de Análise Asintótica**: Implementação dos componentes `ASTParser`, `ComplexityEngine`, `LoopAnalyzer`, `RecursionAnalyzer` e `SpaceAnalyzer`.
 - **CodeLens Interativo**: `AsymptoticCodeLensProvider` exibindo cabeçalho clicável com a complexidade acima de funções e classes.
 - **Decorações In-line**: `LineDecorationManager` para destaques visuais diretamente nas linhas de laços (ex: `← Custo: O(n)`).

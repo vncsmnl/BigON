@@ -154,7 +154,7 @@ Em [src/analyzer/universal/universalParserRouter.ts](file:///d:/Documents/Projet
    ```
 
 ### Passo 4: Criar Testes Unitários
-Adicione casos de teste para a nova linguagem em `test/multiLanguage.test.ts` testando cenários de $O(1)$, $O(n)$, $O(n^2)$, $O(\log n)$ e recursão.
+Adicione casos de teste para a nova linguagem em `test/multiLanguage.test.ts` testando cenários de `O(1)`, `O(n)`, `O(n²)`, `O(log n)` e recursão.
 
 ---
 
@@ -167,11 +167,11 @@ As regras de inferência matemática e análise assintótica ficam em `src/analy
   - Para adicionar detecção de um novo tipo de laço ou progressão (ex: progressão geométrica customizada), edite `LoopAnalyzer.analyzeLoop()`.
 
 - **Análise de Recursão (`recursionAnalyzer.ts`)**:
-  - Avalia a quantidade de chamadas autorreferenciais e o fator de redução do argumento ($n-1$, $n/2$).
-  - Aplica regras inspiradas no **Teorema Mestre** e equações de recorrência ($O(\log n)$, $O(n \log n)$, $O(2^n)$, $O(n!)$).
+  - Avalia a quantidade de chamadas autorreferenciais e o fator de redução do argumento (`n-1`, `n/2`).
+  - Aplica regras inspiradas no **Teorema Mestre** e equações de recorrência (`O(log n)`, `O(n log n)`, `O(2^n)`, `O(n!)`).
 
 - **Análise de Espaço (`spaceAnalyzer.ts`)**:
-  - Identifica alocação de novos arrays/listas/matrizes em relação ao tamanho da entrada $n$.
+  - Identifica alocação de novos arrays/listas/matrizes em relação ao tamanho da entrada `n`.
 
 ---
 

@@ -18,7 +18,10 @@ Diferente de profilings de execução, o BigON realiza **análise estática** at
 
 <div align="center">
   <p><b>CodeLens e Anotações In-line no Editor</b></p>
-  <img src="./assets/code.png" alt="BigON no Editor" width="100%">
+  <img src="./assets/code.png" alt="BigON no Editor" width="50%">
+  <br><br>
+  <p><b>CodeLens e Anotações In-line no Editor</b></p>
+  <img src="./assets/code_1.png" alt="BigON no Editor" width="50%">
   <br><br>
   <p><b>Painel de Explicação Assintótica Interativo</b></p>
   <img src="./assets/webview.png" alt="BigON Webview" width="100%">

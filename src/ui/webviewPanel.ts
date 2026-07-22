@@ -821,7 +821,7 @@ export class ExplanationWebviewPanel {
     <section>
       <h2><ion-icon name="trending-up-outline" class="section-icon"></ion-icon> Curvas de Crescimento Assintótico (Gráfico Didático)</h2>
       <p style="opacity: 0.8; font-size: 0.9em; margin-bottom: 14px;">
-        O gráfico abaixo ilustra como o consumo de tempo ou memória escala à medida que o tamanho da entrada $n$ cresce para o infinito. 
+        O gráfico abaixo ilustra como o consumo de tempo ou memória escala à medida que o tamanho da entrada <code>n</code> cresce para o infinito. 
         A curva destacada representa a complexidade identificada para a função <strong>${this.escapeHtml(report.functionName)}</strong>.
       </p>
       
@@ -837,17 +837,17 @@ export class ExplanationWebviewPanel {
   <!-- ABA 3: FUNDAMENTAÇÃO TEÓRICA (CORMEN ET AL. - CLRS) -->
   <div id="tab-theory" class="tab-content">
     <div class="theory-card">
-      <h3><ion-icon name="school-outline" class="section-icon"></ion-icon> O que é a Notação Big-O ($O$)?</h3>
+      <h3><ion-icon name="school-outline" class="section-icon"></ion-icon> O que é a Notação Big-O (<code>O</code>)?</h3>
       <p>
-        Segundo a obra clássica <em>Introduction to Algorithms</em> (Cormen, Leiserson, Rivest e Stein - Capítulo 3), a <strong>Notação Big-O</strong> ($O$-notation) é utilizada para definir um <strong>limite superior assintótico</strong> (asymptotic upper bound) para a taxa de crescimento de um algoritmo.
+        Segundo a obra clássica <em>Introduction to Algorithms</em> (Cormen, Leiserson, Rivest e Stein - Capítulo 3), a <strong>Notação Big-O</strong> (<code>O</code>-notation) é utilizada para definir um <strong>limite superior assintótico</strong> (asymptotic upper bound) para a taxa de crescimento de um algoritmo.
       </p>
       <div class="formula-box">
         <strong>Definição Matemática Formal (Cormen et al.):</strong><br>
-        Para uma dada função $g(n)$, definimos $O(g(n))$ como o conjunto de funções:<br><br>
+        Para uma dada função <code>g(n)</code>, definimos <code>O(g(n))</code> como o conjunto de funções:<br><br>
         <code>O(g(n)) = { f(n) : existem constantes positivas c e n₀ tais que 0 ≤ f(n) ≤ c · g(n) para todo n ≥ n₀ }</code>
       </div>
       <p>
-        Em termos didáticos: a notação $O(g(n))$ garante que, para entradas suficientemente grandes ($n \ge n_0$), o tempo ou memória consumidos pelo algoritmo nunca ultrapassarão um múltiplo constante de $g(n)$. É a medida padrão para o <strong>pior caso</strong> (worst-case scenario).
+        Em termos didáticos: a notação <code>O(g(n))</code> garante que, para entradas suficientemente grandes (<code>n ≥ n₀</code>), o tempo ou memória consumidos pelo algoritmo nunca ultrapassarão um múltiplo constante de <code>g(n)</code>. É a medida padrão para o <strong>pior caso</strong> (worst-case scenario).
       </p>
       <div class="citation">
         Ref: CORMEN, T. H.; LEISERSON, C. E.; RIVEST, R. L.; STEIN, C. <em>Algoritmos: Teoria e Prática</em>. 3ª ed. Elsevier / Campus, Cap. 3 (Crescimento de Funções).
@@ -861,10 +861,10 @@ export class ExplanationWebviewPanel {
       </p>
       <ul>
         <li>
-          <strong>Complexidade de Tempo ($T(n)$):</strong> Mede o número de operações fundamentais (comparações, atribuições, laços) executadas em função do tamanho da entrada $n$. Determina a velocidade de execução do algoritmo.
+          <strong>Complexidade de Tempo (<code>T(n)</code>):</strong> Mede o número de operações fundamentais (comparações, atribuições, laços) executadas em função do tamanho da entrada <code>n</code>. Determina a velocidade de execução do algoritmo.
         </li>
         <li style="margin-top: 8px;">
-          <strong>Complexidade de Espaço ($S(n)$):</strong> Mede a quantidade de memória adicional (chamada de <em>espaço auxiliar</em>) exigida pela função durante a execução além dos dados de entrada. Inclui variáveis locais, pilhas de chamadas recursivas e arranjos temporários.
+          <strong>Complexidade de Espaço (<code>S(n)</code>):</strong> Mede a quantidade de memória adicional (chamada de <em>espaço auxiliar</em>) exigida pela função durante a execução além dos dados de entrada. Inclui variáveis locais, pilhas de chamadas recursivas e arranjos temporários.
         </li>
       </ul>
       <p style="font-size: 0.9em; opacity: 0.85; margin-top: 10px;">
