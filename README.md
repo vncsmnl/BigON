@@ -2,6 +2,10 @@
 
 <div align="center">
   <img src="./assets/logo.png" alt="BigON Logo" width="40%" height="40%">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 1f3f765cc2b4c65fa0ecdd65c3087003f3976970
 </div>
 
 ## Proposta da Extensão
