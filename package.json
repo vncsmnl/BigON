@@ -1,8 +1,8 @@
 {
   "name": "BigON",
-  "displayName": "BigON - Analisador de Complexidade Multi-Linguagem",
+  "displayName": "BigON",
   "description": "Análise estática de complexidade assintótica de Tempo e Espaço (Big-O).",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "vncsmnl",
   "engines": {
     "vscode": "^1.80.0"

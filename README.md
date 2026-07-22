@@ -2,12 +2,20 @@
 
 [![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-3178C6?logo=visual-studio-code&logoColor=fff)](#)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff)](#)
-[![License](https://img.shields.io/github/license/vncsmnl/bigon?branch=main&label=License&logo=GitHub&logoColor=ffffff&labelColor=282828&color=informational&style=flat)](https://github.com/vncsmnl/bigon/blob/main/LICENSE)
+[![License](https://img.shields.io/github/license/vncsmnl/BigON?branch=main&label=License&logo=GitHub&logoColor=ffffff&labelColor=282828&color=informational&style=flat)](https://github.com/vncsmnl/BigON/blob/main/LICENSE)
 
 Uma extensão inteligente para **VS Code**, **VSCodium**, **Cursor**, **Antigravity** e afins que realiza análise de complexidade assintótica de Tempo ($O(n)$) e Espaço ($O(1)$) através da **Árvore Sintática Abstrata (AST)** do código-fonte, sem a necessidade de executar o programa.
 
 <div align="center">
   <img src="./assets/logo.png" alt="logo" height="50%" width="50%">
+</div>
+
+<div align="center">
+  <img src="./assets/code.png" alt="logo">
+</div>
+
+<div align="center">
+  <img src="./assets/webview.png" alt="logo">
 </div>
 
 ---

@@ -1,4 +1,4 @@
-name: Feature Request (Sugestão de Funcionalidade)
+name: 🚀 Feature Request (Sugestão de Funcionalidade)
 description: Sugira uma nova ideia, suporte a novo padrão ou melhoria para a extensão BigON.
 title: "[FEATURE]: "
 labels: ["enhancement"]
@@ -11,7 +11,7 @@ body:
   - type: textarea
     id: problem
     attributes:
-      label: Qual problema ou limitação sua sugestão resolve?
+      label: 🤔 Qual problema ou limitação sua sugestão resolve?
       description: Uma descrição clara do problema ou de padrões de código que atualmente não são analisados corretamente.
       placeholder: "Ex: Atualmente laços do tipo 'do-while' não são reconhecidos pelo analisador de AST..."
     validations:
@@ -20,7 +20,7 @@ body:
   - type: textarea
     id: solution
     attributes:
-      label: Solução Proposta
+      label: 🎯 Solução Proposta
       description: Descreva detalhadamente a funcionalidade ou comportamento que você gostaria de ver implementado.
     validations:
       required: true
@@ -28,7 +28,7 @@ body:
   - type: textarea
     id: alternatives
     attributes:
-      label: Alternativas Consideradas
+      label: 🔄 Alternativas Consideradas
       description: Descreva soluções ou abordagens alternativas que você considerou.
     validations:
       required: false
@@ -36,7 +36,7 @@ body:
   - type: textarea
     id: code_example
     attributes:
-      label: Exemplo de Código / Caso de Uso
+      label: 📄 Exemplo de Código / Caso de Uso
       description: Se for suporte a um novo padrão de código, forneça um exemplo em TypeScript/JavaScript.
       render: typescript
     validations:
@@ -45,7 +45,7 @@ body:
   - type: textarea
     id: additional_context
     attributes:
-      label: Contexto Adicional
+      label: 📝 Contexto Adicional
       description: Adicione qualquer outra informação, imagens ou links relevantes sobre esta sugestão.
     validations:
       required: false
