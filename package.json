@@ -1,0 +1,92 @@
+{
+  "name": "BigON",
+  "displayName": "BigON - Analisador de Complexidade Multi-Linguagem",
+  "description": "Análise estática de complexidade assintótica de Tempo e Espaço (Big-O).",
+  "version": "0.1.0",
+  "publisher": "BigON",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "license": "MIT",
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "keywords": [
+    "big-o",
+    "complexity",
+    "asymptotic",
+    "ast",
+    "time-complexity",
+    "space-complexity"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vncsmnl/BigON.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vncsmnl/BigON/issues"
+  },
+  "homepage": "https://github.com/vncsmnl/BigON#readme",
+  "activationEvents": [
+    "onLanguage:javascript",
+    "onLanguage:typescript",
+    "onLanguage:javascriptreact",
+    "onLanguage:typescriptreact",
+    "onLanguage:python",
+    "onLanguage:ruby",
+    "onLanguage:cpp",
+    "onLanguage:c"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "BigON.analyzeFile",
+        "title": "BigON: Analisar Complexidade do Arquivo"
+      },
+      {
+        "command": "BigON.toggleDecorations",
+        "title": "BigON: Alternar Anotações In-line"
+      },
+      {
+        "command": "BigON.openExplanation",
+        "title": "BigON: Abrir Painel de Explicação"
+      }
+    ],
+    "configuration": {
+      "title": "BigON Complexity Analyzer",
+      "properties": {
+        "BigON.enableCodeLens": {
+          "type": "boolean",
+          "default": true,
+          "description": "Exibir cabeçalho de complexidade CodeLens acima das funções."
+        },
+        "BigON.enableInlineDecorations": {
+          "type": "boolean",
+          "default": true,
+          "description": "Exibir anotações de custo Big-O diretamente no final das linhas de laços."
+        },
+        "BigON.enableHover": {
+          "type": "boolean",
+          "default": true,
+          "description": "Exibir balão explicativo de complexidade ao passar o mouse sobre funções."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -w -p ./",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.80.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "typescript": "^5.3.3"
+  }
+}
