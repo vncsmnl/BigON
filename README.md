@@ -24,29 +24,6 @@ Diferente de profilings de execução, o BigON realiza **análise estática** at
   <img src="./assets/webview.png" alt="BigON Webview" width="100%">
 </div>
 
----
-
-## Proposta da Extensão
-
-O **BigON** é uma extensão para **VS Code**, **VSCodium**, **Cursor**, **Antigravity** e editores compatíveis, desenvolvida para analisar a **complexidade assintótica de Tempo \(O(...)\) e Espaço \(O(...)\)** de funções em tempo real.
-
-Diferente de profilings de execução, o BigON realiza **análise estática** através da **Árvore Sintática Abstrata (AST)** do código-fonte e heurísticas estruturais, calculando a ordem de grandeza do algoritmo **sem a necessidade de executar o programa**.
-
-### Destaques Principais:
-- **Análise Instantânea**: Feedback visual de complexidade enquanto você digita.
-- **Não Executa Código**: Análise 100% estática e segura via AST.
-- **Foco Educacional**: Explication detalhada embasada nos princípios de algoritmos (CLRS / Cormen et al.) com gráficos interativos de curvas Big-O.
-- **Suporte Multi-Linguagem**: JavaScript, TypeScript, React (JSX/TSX), Python, Ruby, C++ e C.
-
-<div align="center">
-  <p><b>CodeLens e Anotações In-line no Editor</b></p>
-  <img src="./assets/code.png" alt="BigON no Editor" width="100%">
-  <br><br>
-  <p><b>Painel de Explicação Assintótica Interativo</b></p>
-  <img src="./assets/webview.png" alt="BigON Webview" width="100%">
-</div>
-
----
 
 ## Como Baixar e Instalar
 
