@@ -20,7 +20,7 @@
     "time-complexity",
     "space-complexity"
   ],
-  "icon": "images/logo.png",
+  "icon": "./assets/logo.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/vncsmnl/BigON.git"
