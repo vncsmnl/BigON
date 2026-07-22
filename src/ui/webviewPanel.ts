@@ -209,6 +209,21 @@ export class ExplanationWebviewPanel {
       font-weight: 600;
     }
 
+    .disclaimer {
+      margin: 0 0 24px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 8px;
+      background: var(--vscode-textCodeBlock-background, rgba(128,128,128,0.08));
+      color: var(--vscode-descriptionForeground, var(--vscode-foreground));
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .disclaimer strong {
+      color: var(--vscode-foreground);
+    }
+
     h2 {
       display: flex;
       align-items: center;
@@ -379,6 +394,14 @@ export class ExplanationWebviewPanel {
     <h2><ion-icon name="bar-chart-outline" class="section-icon"></ion-icon> Escala de referência</h2>
     <div class="scale">${scaleHtml}</div>
   </section>
+
+  <p class="disclaimer">
+  <strong>Disclaimer:</strong> esta visualização apresenta uma análise estática baseada em AST (Abstract Syntax Tree) e heurísticas sintáticas de estrutura do código. As inferências exibidas representam diagnósticos aproximados derivados de padrões estruturais identificáveis no código e não constituem uma prova formal de complexidade, desempenho ou comportamento em todos os cenários de execução.
+  <br><br>
+  Códigos que utilizam compilação dinâmica, metaprogramação, reflexão, comportamento fortemente dependente de dados em runtime ou formas complexas de recursão indireta podem produzir inferências imprecisas ou incompletas.
+  <br><br>
+  Para aprofundamento sobre análise de algoritmos e fundamentos teóricos, consulte <em>Introduction to Algorithms</em>, de Cormen, Leiserson, Rivest e Stein.
+</p>
 </body>
 </html>`;
   }
