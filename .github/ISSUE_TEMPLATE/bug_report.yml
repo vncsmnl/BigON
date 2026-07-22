@@ -1,0 +1,65 @@
+name: Bug Report (Relato de Bug)
+description: Crie um relatório para nos ajudar a identificar e corrigir um problema no BigON.
+title: "[BUG]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por dedicar seu tempo para relatar este problema! Preencha as informações abaixo para nos ajudar a reproduzir e resolver o bug o mais rápido possível.
+
+  - type: input
+    id: environment
+    attributes:
+      label: Ambiente e Versões
+      description: Informe a versão do VS Code/Editor e o Sistema Operacional.
+      placeholder: "ex: VS Code 1.85.0 em Windows 11 / Node.js v20"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Descrição do Bug
+      description: Uma descrição clara e concisa do comportamento incorreto ou do erro encontrado.
+      placeholder: "Ex: O CodeLens exibe O(1) mesmo quando a função possui um laço for linear..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Passo a Passo para Reproduzir
+      description: Sequência detalhada de passos para reproduzir o comportamento.
+      placeholder: |
+        1. Abra um arquivo TypeScript (.ts)
+        2. Escreva o seguinte código: ...
+        3. Observe a decoração / CodeLens no editor
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportamento Esperado
+      description: Uma descrição clara e concisa do que você esperava que acontecesse.
+      placeholder: "Esperava que a complexidade de tempo calculada fosse O(n)."
+    validations:
+      required: false
+
+  - type: textarea
+    id: code_example
+    attributes:
+      label: Código para Reprodução
+      description: Cole aqui o trecho de código-fonte onde a análise da AST falhou ou apresentou erro.
+      render: typescript
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs_screenshots
+    attributes:
+      label: Logs / Capturas de Tela
+      description: Adicione logs do console do VS Code ou capturas de tela se ajudar a explicar o problema.
+    validations:
+      required: false

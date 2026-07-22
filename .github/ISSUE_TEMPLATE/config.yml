@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Dúvidas e Perguntas
+    url: https://github.com/
+    about: Para dúvidas sobre o cálculo de complexidade ou uso da extensão.
