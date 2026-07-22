@@ -26,9 +26,6 @@ Diferente de profilings de execução, o BigON realiza **análise estática** at
 
 ---
 
-## Como Baixar e Instalar
-
-=======
 ## Proposta da Extensão
 
 O **BigON** é uma extensão para **VS Code**, **VSCodium**, **Cursor**, **Antigravity** e editores compatíveis, desenvolvida para analisar a **complexidade assintótica de Tempo \(O(...)\) e Espaço \(O(...)\)** de funções em tempo real.
