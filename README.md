@@ -1,7 +1,7 @@
 # BigON - Analisador de Complexidade Assintótica para VS Code
 
 <div align="center">
-  <img src="./assets/logo.png" alt="BigON Logo" width="40%" height="40%">
+  <img src="./assets/cover.jpg" alt="BigON Capa">
 </div>
 
 ## Proposta da Extensão
