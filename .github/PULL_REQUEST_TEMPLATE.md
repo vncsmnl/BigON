@@ -36,10 +36,10 @@ Se este PR afeta o motor de análise de complexidade do **BigON**, descreva suci
 
 - [ ] Meu código segue as diretrizes de estilo do projeto.
 - [ ] Realizei uma auto-revisão (*self-review*) do meu próprio código.
-- [ ] Executei os testes locais com `pnpm test` e todos passaram com sucesso.
+- [ ] Executei os testes locais com `npm run test` e todos passaram com sucesso.
 - [ ] Adicionei ou atualizei os testes unitários cobrindo as novas alterações.
 - [ ] Atualizei a documentação/README se necessário.
-- [ ] O projeto compila sem erros ou avisos de TypeScript (`pnpm compile` / `tsc`).
+- [ ] O projeto compila sem erros ou avisos de TypeScript (`npm run compile` / `tsc`).
 
 ---
 

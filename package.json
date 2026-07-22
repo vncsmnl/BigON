@@ -77,7 +77,7 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "pnpm compile",
+    "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -w -p ./",
     "test": "jest"
