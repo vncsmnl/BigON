@@ -7,7 +7,7 @@
 Uma extensão inteligente para **VS Code**, **VSCodium**, **Cursor**, **Antigravity** e afins que realiza análise de complexidade assintótica de Tempo ($O(n)$) e Espaço ($O(1)$) através da **Árvore Sintática Abstrata (AST)** do código-fonte, sem a necessidade de executar o programa.
 
 <div align="center">
-  <img src="./assets/logo.png" alt="logo">
+  <img src="./assets/logo.png" alt="logo" height="50%" width="50%">
 </div>
 
 ---
