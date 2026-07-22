@@ -4,7 +4,7 @@ Este documento oferece um detalhamento técnico completo da arquitetura do **Big
 
 ---
 
-## 📐 Visão Geral da Arquitetura
+## Visão Geral da Arquitetura
 
 O sistema é dividido estritamente em duas grandes camadas:
 
@@ -37,7 +37,7 @@ graph TD
 
 ---
 
-## 🧩 Componentes do Motor de Análise (`src/analyzer/`)
+## Componentes do Motor de Análise (`src/analyzer/`)
 
 ### 1. `ComplexityEngine` (`src/analyzer/complexityEngine.ts`)
 Atua como a fachada e orquestrador central. Ao receber o código-fonte de um arquivo:
@@ -72,7 +72,7 @@ Mapeia o consumo de memória auxiliar:
 
 ---
 
-## 🌐 Parsers Sintáticos Universais (`src/analyzer/universal/`)
+## Parsers Sintáticos Universais (`src/analyzer/universal/`)
 
 Para linguagens que não utilizam o compilador TypeScript nativo, o BigON utiliza uma arquitetura baseada em **AST Universal**:
 
@@ -83,7 +83,7 @@ Para linguagens que não utilizam o compilador TypeScript nativo, o BigON utiliz
 
 ---
 
-## 🎨 Componentes de Interface VS Code (`src/ui/`)
+## Componentes de Interface VS Code (`src/ui/`)
 
 ### 1. `AsymptoticCodeLensProvider` (`src/ui/codeLensProvider.ts`)
 Implementa a interface `vscode.CodeLensProvider`. Insere um botão interativo acima da assinatura de cada função com o formato:
@@ -102,7 +102,7 @@ Abre um painel lateral/central rico feito com HTML5, CSS3 avançado (modo escuro
 
 ---
 
-## 📊 Hierarquia das Complexidades Big-O
+## Hierarquia das Complexidades Big-O
 
 O motor reconhece e ordena as complexidades na seguinte escala de dominância assintótica:
 
@@ -110,7 +110,7 @@ O motor reconhece e ordena as complexidades na seguinte escala de dominância as
 
 ---
 
-## 🔑 Principais Interfaces do Sistema (`src/analyzer/types.ts`)
+## Principais Interfaces do Sistema (`src/analyzer/types.ts`)
 
 ```typescript
 export type BigOComplexity =
@@ -155,7 +155,7 @@ export interface FunctionComplexityReport {
 
 ---
 
-## 🔄 Ciclo de Vida da Extensão (`src/extension.ts`)
+## Ciclo de Vida da Extensão (`src/extension.ts`)
 
 1. **Ativação (`activate`)**:
    - Registra o `CodeLensProvider`, `HoverProvider` e os comandos (`BigON.analyzeFile`, `BigON.toggleDecorations`, `BigON.openExplanation`).

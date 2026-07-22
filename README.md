@@ -58,7 +58,7 @@ Caso você esteja offline, utilizando uma rede corporativa restrita ou deseje te
   ```bash
   npx @vscode/vsce package
   ```
-  Isso gerará o arquivo `BigON-1.0.1.vsix` no diretório raiz do projeto.
+  Isso gerará o arquivo `BigON-X.X.X.vsix` no diretório raiz do projeto.
 
 #### Passo B: Instalar no Editor
 
@@ -67,20 +67,20 @@ Caso você esteja offline, utilizando uma rede corporativa restrita ou deseje te
 2. Abra a aba de Extensões (`Ctrl+Shift+X`).
 3. Clique no menu de três pontinhos **`...`** (no canto superior direito da aba de extensões).
 4. Selecione **`Instalar a partir de VSIX...`** (`Install from VSIX...`).
-5. Escolha o arquivo `BigON-1.0.1.vsix` baixado ou gerado.
+5. Escolha o arquivo `BigON-X.X.X.vsix` baixado ou gerado.
 
 ##### Opção 2: Pela Linha de Comando (Terminal / CLI)
 Abra seu terminal e execute o comando correspondente ao seu editor:
 
 ```bash
 # Para VS Code:
-code --install-extension BigON-1.0.1.vsix
+code --install-extension BigON-X.X.X.vsix
 
 # Para VSCodium:
-codium --install-extension BigON-1.0.1.vsix
+codium --install-extension BigON-X.X.X.vsix
 
 # Para Cursor:
-cursor --install-extension BigON-1.0.1.vsix
+cursor --install-extension BigON-X.X.X.vsix
 ```
 
 ---

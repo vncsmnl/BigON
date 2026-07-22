@@ -4,7 +4,7 @@ Ficamos muito felizes pelo seu interesse em contribuir para o **BigON**! Este gu
 
 ---
 
-## 📋 Sumário
+## Sumário
 
 1. [Pré-requisitos](#-pré-requisitos)
 2. [Configuração do Ambiente de Desenvolvimento](#-configuração-do-ambiente-de-desenvolvimento)
@@ -17,7 +17,7 @@ Ficamos muito felizes pelo seu interesse em contribuir para o **BigON**! Este gu
 
 ---
 
-## 🛠️ Pré-requisitos
+## Pré-requisitos
 
 Antes de iniciar, certifique-se de ter instalado em sua máquina:
 
@@ -28,7 +28,7 @@ Antes de iniciar, certifique-se de ter instalado em sua máquina:
 
 ---
 
-## 🚀 Configuração do Ambiente de Desenvolvimento
+## Configuração do Ambiente de Desenvolvimento
 
 1. **Clone o repositório:**
    ```bash
@@ -48,7 +48,7 @@ Antes de iniciar, certifique-se de ter instalado em sua máquina:
 
 ---
 
-## 📁 Estrutura de Diretórios
+## Estrutura de Diretórios
 
 A estrutura do projeto está organizada de forma modular entre o **motor de análise estatística/AST** e a **interface do VS Code**:
 
@@ -82,7 +82,7 @@ BigON/
 
 ---
 
-## 🧪 Como Executar e Testar Localmente
+## Como Executar e Testar Localmente
 
 ### Rodando a Suíte de Testes
 Utilizamos **[Jest](https://jestjs.io/)** com **`ts-jest`** para os testes unitários do motor de análise:
@@ -104,7 +104,7 @@ npx jest --watch
 
 ---
 
-## 🌐 Como Adicionar Suporte a uma Nova Linguagem
+## Como Adicionar Suporte a uma Nova Linguagem
 
 O BigON suporta tanto análise via AST nativa (para JS/TS usando a TypeScript Compiler API) quanto parsers sintáticos heurísticos universais para linguagens adicionais (ex: Python, Ruby, C++).
 
@@ -158,7 +158,7 @@ Adicione casos de teste para a nova linguagem em `test/multiLanguage.test.ts` te
 
 ---
 
-## 🧮 Como Adicionar ou Ajustar Regras de Análise Assintótica
+## Como Adicionar ou Ajustar Regras de Análise Assintótica
 
 As regras de inferência matemática e análise assintótica ficam em `src/analyzer/`:
 
@@ -175,7 +175,7 @@ As regras de inferência matemática e análise assintótica ficam em `src/analy
 
 ---
 
-## 📐 Diretrizes de Testes Unitários
+## Diretrizes de Testes Unitários
 
 Todos os PRs devem conter testes unitários cobrindo o código novo ou alterado.
 
@@ -208,7 +208,7 @@ describe('Novo Cenário de Complexidade', () => {
 
 ---
 
-## 📝 Padrões de Código e Submissão de PR
+## Padrões de Código e Submissão de PR
 
 1. **Formatação e Estilo**:
    - Utilize TypeScript estrito (`strict: true` no `tsconfig.json`).
@@ -220,4 +220,4 @@ describe('Novo Cenário de Complexidade', () => {
    - Certifique-se de que `npm test` e `npm run compile` executem com **sucesso zero erros** antes de abrir a PR.
    - Abra a Pull Request descrevendo claramente o que foi alterado e como testar.
 
-Obrigado por ajudar a tornar o **BigON** cada vez melhor! 🚀
+Obrigado por ajudar a tornar o **BigON** cada vez melhor!
