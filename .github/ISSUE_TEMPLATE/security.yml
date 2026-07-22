@@ -1,0 +1,75 @@
+name: 🛡️ Security Report (Relatório de Segurança)
+description: Relate uma vulnerabilidade ou problema de segurança encontrado na extensão BigON.
+title: "[SECURITY]: "
+labels:
+  - security
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por nos ajudar a manter a segurança do BigON!
+
+        **Aviso Importante:** Para vulnerabilidades de alto risco ou divulgação responsável privada, verifique nossa política em [SECURITY.md](https://github.com/vncsmnl/BigON/blob/main/SECURITY.md) ou contate os mantenedores diretamente antes de abrir um relatório público.
+
+  - type: input
+    id: extension_version
+    attributes:
+      label: 📦 Versão Afetada
+      description: Qual versão da extensão BigON possui a vulnerabilidade?
+      placeholder: "Ex: v1.2.0 ou todas as versões"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: vulnerability_type
+    attributes:
+      label: 🛡️ Tipo de Vulnerabilidade
+      description: Qual é a categoria da vulnerabilidade observada?
+      options:
+        - Execução Arbitrária de Código (RCE)
+        - Injeção de Código / Manipulação AST Insegura
+        - Vazamento de Informações / Leitura de Arquivo Não Autorizada
+        - Vulnerabilidade em Dependência / NPM Package
+        - Negação de Serviço (DoS por Regex/Loop Infinito)
+        - Outra
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 📝 Descrição da Vulnerabilidade
+      description: Descreva a falha de segurança observada e seu mecanismo.
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: 💥 Impacto Potencial
+      description: Qual é o risco ou consequência caso essa falha seja explorada?
+      placeholder: |
+        Exemplo:
+        Um arquivo manipulado poderia fazer a extensão travar o Extension Host do VS Code indefinidamente.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 🧪 Passos para Reprodução (PoC)
+      description: Forneça um exemplo seguro de prova de conceito (Proof of Concept).
+      placeholder: |
+        1. Abra o projeto com o arquivo X.ts
+        2. Execute o comando Y
+    validations:
+      required: false
+
+  - type: textarea
+    id: remediation
+    attributes:
+      label: 🛠️ Mitigação ou Correção Sugerida
+      description: Se você possui uma sugestão de correção ou atualização de dependência, compartilhe aqui.
+    validations:
+      required: false

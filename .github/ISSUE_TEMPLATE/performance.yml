@@ -1,0 +1,108 @@
+name: ⚡ Performance Report (Desempenho & Otimização)
+description: Relate problemas de lentidão, alto uso de memória/CPU ou sugira otimizações na análise do BigON.
+title: "[PERF]: "
+labels:
+  - performance
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por relatar este problema de desempenho no BigON!
+
+        A análise estática em tempo real precisa ser rápida e leve. Relatórios detalhados nos ajudam a identificar gargalos na análise de AST e otimizar o consumo de recursos.
+
+  - type: input
+    id: extension_version
+    attributes:
+      label: 📦 Versão do BigON
+      description: Informe a versão da extensão instalada.
+      placeholder: "Ex: v1.2.0"
+    validations:
+      required: true
+
+  - type: input
+    id: vscode_version
+    attributes:
+      label: 💻 Versão do VS Code
+      description: Informe a versão do VS Code.
+      placeholder: "Ex: 1.105.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: 🖥️ Sistema Operacional
+      description: Selecione o seu sistema operacional.
+      options:
+        - Windows
+        - Linux
+        - macOS
+        - Outro
+    validations:
+      required: true
+
+  - type: dropdown
+    id: perf_issue_type
+    attributes:
+      label: 🎯 Tipo de Problema de Desempenho
+      description: Qual comportamento foi observado?
+      options:
+        - Lentidão/Lag ao digitar no editor
+        - Demora para renderizar o CodeLens
+        - Alto consumo de CPU durante a análise
+        - Alto consumo de Memória (Memory Leak)
+        - Travamento da extensão em arquivos grandes
+        - Sugestão de otimização no parser/AST
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 📝 Descrição do Problema / Otimização
+      description: Descreva em detalhes onde e como a degradação de desempenho ocorre.
+      placeholder: |
+        Exemplo:
+        Ao abrir um arquivo TypeScript com mais de 1500 linhas contendo laços aninhados, a análise trava a thread por 3 segundos.
+    validations:
+      required: true
+
+  - type: textarea
+    id: file_metrics
+    attributes:
+      label: 📊 Métrica e Tamanho do Arquivo Afetado
+      description: Informe o tamanho aproximado do arquivo, número de linhas, quantidade de funções ou profundidade de aninhamento.
+      placeholder: |
+        - Linhas de código: ~2000
+        - Número de funções: ~40
+        - Tipos de laços: `for` e `map` encadeados
+    validations:
+      required: false
+
+  - type: textarea
+    id: code_sample
+    attributes:
+      label: 📄 Exemplo de Código para Reprodução
+      description: Se possível, forneça o trecho de código que causa o travamento ou degradação de performance.
+      render: typescript
+    validations:
+      required: false
+
+  - type: textarea
+    id: profiling_logs
+    attributes:
+      label: 📋 Logs ou Profiling (Process Explorer / Extension Host)
+      description: Cole medições de tempo, logs do Extension Host ou dados do VS Code Process Explorer, se houver.
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: 💬 Informações Adicionais
+      description: Qualquer outro detalhe relevante.
+    validations:
+      required: false

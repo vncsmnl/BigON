@@ -1,0 +1,92 @@
+name: 🧪 Test Case Proposal (Caso de Teste / Algoritmo)
+description: Proponha novos casos de teste ou estruturas algorítmicas para validar e evoluir o analisador Big-O.
+title: "[TEST-CASE]: "
+labels:
+  - test-case
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por contribuir com um novo caso de teste para o BigON!
+
+        Casos de teste práticos ajudam a expandir nossa suíte de testes automatizados e garantem a precisão do cálculo de complexidade temporal e espacial.
+
+  - type: dropdown
+    id: expected_complexity
+    attributes:
+      label: 🎯 Complexidade Temporal Esperada (Big-O)
+      description: Qual deve ser o resultado correto para este trecho de código?
+      options:
+        - O(1) - Constante
+        - O(log n) - Logarítmica
+        - O(n) - Linear
+        - O(n log n) - Linearítmica
+        - O(n²) - Quadrática
+        - O(n³) - Cúbica
+        - O(2^n) - Exponencial
+        - O(n!) - Fatorial
+        - Complexidade Mista / Condicional
+        - Desconhecida / Para discussão
+    validations:
+      required: true
+
+  - type: textarea
+    id: code_snippet
+    attributes:
+      label: 📄 Trecho de Código (Caso de Teste)
+      description: Cole o trecho de código que representa o cenário algorítmico.
+      render: typescript
+      placeholder: |
+        function binarySearch(arr: number[], target: number): number {
+          let left = 0;
+          let right = arr.length - 1;
+          while (left <= right) {
+            const mid = Math.floor((left + right) / 2);
+            if (arr[mid] === target) return mid;
+            if (arr[mid] < target) left = mid + 1;
+            else right = mid - 1;
+          }
+          return -1;
+        }
+    validations:
+      required: true
+
+  - type: textarea
+    id: theoretical_explanation
+    attributes:
+      label: 🧮 Justificativa Teórica
+      description: Explique o motivo pelo qual o código possui essa complexidade.
+      placeholder: |
+        Exemplo:
+        A cada iteração do laço `while`, o espaço de busca é reduzido pela metade (`(left + right) / 2`), resultando em O(log n) passos no pior caso.
+    validations:
+      required: true
+
+  - type: textarea
+    id: current_behavior
+    attributes:
+      label: 🔍 Comportamento Atual do BigON (se já testou na extensão)
+      description: O BigON calcula este código corretamente hoje? Se não, qual é o resultado atual?
+      placeholder: |
+        Exemplo:
+        Atualmente o BigON calcula O(n) porque não reconhece a divisão do espaço de busca na condição do laço.
+    validations:
+      required: false
+
+  - type: textarea
+    id: space_complexity
+    attributes:
+      label: 💾 Complexidade Espacial Esperada (Opcional)
+      description: Se este teste envolver alocação de memória relevante, informe a complexidade espacial esperada.
+      placeholder: "Ex: O(1) espaço auxiliar ou O(n) devido à pilha de recursão."
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: 💬 Informações Adicionais
+      description: Algum detalhe adicional ou variação deste algoritmo.
+    validations:
+      required: false

@@ -1,0 +1,80 @@
+name: 🌐 Language Support (Suporte a Nova Linguagem)
+description: Proponha suporte a uma nova linguagem de programação ou extensão de arquivo para a análise Big-O.
+title: "[LANG]: "
+labels:
+  - language-support
+  - enhancement
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por propor suporte a uma nova linguagem para o BigON!
+
+        Expandir o BigON para novas linguagens exige mapear a sintaxe da linguagem para estruturas de complexidade (laços, recursão, chamadas de métodos, etc.).
+
+  - type: input
+    id: language_name
+    attributes:
+      label: 🔤 Nome da Linguagem
+      description: Qual linguagem de programação você deseja que o BigON analise?
+      placeholder: "Ex: Python, Go, Rust, Java, C++"
+    validations:
+      required: true
+
+  - type: input
+    id: file_extensions
+    attributes:
+      label: 📁 Extensões de Arquivo
+      description: Quais extensões de arquivo são associadas a essa linguagem?
+      placeholder: "Ex: .py, .go, .rs, .java"
+    validations:
+      required: true
+
+  - type: textarea
+    id: ast_parser
+    attributes:
+      label: 🧩 Parser AST Recomendado / Existente
+      description: Conhece algum parser AST em JavaScript/TypeScript ou biblioteca que possa ser utilizada para essa linguagem?
+      placeholder: |
+        Exemplo:
+        - Python: `tree-sitter-python` ou `@python-ast/parser`
+        - Go: `tree-sitter-go`
+    validations:
+      required: false
+
+  - type: textarea
+    id: syntax_patterns
+    attributes:
+      label: 📄 Estruturas de Controle e Laços Característicos
+      description: Apresente exemplos de como a linguagem expressa laços, recursão ou operações custosas.
+      render: text
+      placeholder: |
+        Exemplo em Python:
+        for i in range(n):
+            for j in range(n):
+                print(i, j)
+    validations:
+      required: true
+
+  - type: textarea
+    id: syntax_patterns
+    attributes:
+      label: 📄 Estruturas de Controle e Laços Característicos
+      description: Apresente exemplos de como a linguagem expressa laços, recursão ou operações custosas.
+      render: text
+      placeholder: |
+        Exemplo em Python:
+        for i in range(n):
+            for j in range(n):
+                print(i, j)
+    validations:
+      required: true
+
+  - type: textarea
+    id: references
+    attributes:
+      label: 🔗 Referências ou Links Úteis
+      description: Adicione links para a especificação da linguagem, parsers existentes ou documentação relevante.
+    validations:
+      required: false

@@ -1,0 +1,60 @@
+name: 📚 Documentation (Melhoria na Documentação)
+description: Sugira correções, melhorias ou novas seções na documentação, README ou Wiki do BigON.
+title: "[DOCS]: "
+labels:
+  - documentation
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por ajudar a manter a documentação do BigON clara e atualizada!
+
+        Documentações de qualidade ajudam toda a comunidade a entender melhor o funcionamento do analisador de complexidade.
+
+  - type: dropdown
+    id: doc_target
+    attributes:
+      label: 🎯 Local da Documentação
+      description: Qual parte da documentação você gostaria de melhorar?
+      options:
+        - README.md Principal
+        - Wiki / Guias de Uso
+        - JSDoc / Comentários no Código
+        - Mensagens da Extensão / Tooltips
+        - Guia de Contribuição (CONTRIBUTING.md)
+        - Outro
+    validations:
+      required: true
+
+  - type: textarea
+    id: issue_description
+    attributes:
+      label: 📝 O que precisa ser ajustado ou adicionado?
+      description: Descreva o trecho incorreto, desatualizado ou a nova seção que deve ser criada.
+      placeholder: |
+        Exemplo:
+        A seção de configurações no README não menciona a nova opção `bigon.enableCodeLens`.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_text
+    attributes:
+      label: ✍️ Sugestão de Texto / Mudança
+      description: Escreva a sua sugestão de texto ou a alteração que você propõe.
+      render: markdown
+      placeholder: |
+        Exemplo:
+        ### Configuração `bigon.enableCodeLens`
+        Ativa ou desativa a exibição da complexidade acima das funções no editor.
+    validations:
+      required: false
+
+  - type: textarea
+    id: references
+    attributes:
+      label: 🔗 Links ou Referências
+      description: Adicione links para documentações oficiais, especificações ou exemplos.
+    validations:
+      required: false

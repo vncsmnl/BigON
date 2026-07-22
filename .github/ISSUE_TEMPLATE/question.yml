@@ -1,0 +1,70 @@
+name: ❓ Question / Support (Dúvida ou Suporte)
+description: Tire dúvidas sobre o cálculo de complexidade Big-O, configurações ou uso do BigON.
+title: "[QUESTION]: "
+labels:
+  - question
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por utilizar o BigON!
+
+        Antes de abrir uma dúvida, verifique se a resposta já está disponível na nossa [Wiki](https://github.com/vncsmnl/BigON/wiki) ou em [Issues anteriores](https://github.com/vncsmnl/BigON/issues?q=is%3Aissue).
+
+        **Aviso:** Nunca compartilhe credenciais, chaves de API ou informações sensíveis.
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: 🏷️ Categoria da Dúvida
+      description: Sobre qual assunto é a sua pergunta?
+      options:
+        - Cálculo de Complexidade (Big-O / Espacial / Temporal)
+        - Configuração da Extensão
+        - Uso no Editor (CodeLens / Decorações)
+        - Suporte a Sintaxe / Linguagens
+        - Conceito Algorítmico
+        - Outro
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: ❓ Sua Pergunta
+      description: Descreva detalhadamente a sua dúvida.
+      placeholder: |
+        Exemplo:
+        Como o BigON analisa laços aninhados com condições de parada dinâmicas?
+    validations:
+      required: true
+
+  - type: textarea
+    id: context_code
+    attributes:
+      label: 📄 Código ou Contexto Relevante
+      description: Se a dúvida for referente a um trecho de código específico, compartilhe-o aqui.
+      render: typescript
+      placeholder: |
+        function search(arr: number[], target: number) {
+          // Como a complexidade deste trecho é calculada?
+        }
+    validations:
+      required: false
+
+  - type: textarea
+    id: expected_understanding
+    attributes:
+      label: 💡 O que você esperava ou tentou entender
+      description: Explique o seu entendimento atual ou o resultado que você obteve.
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: 💬 Informações Adicionais
+      description: Qualquer outro detalhe ou imagem que ajude a responder a sua pergunta.
+    validations:
+      required: false
