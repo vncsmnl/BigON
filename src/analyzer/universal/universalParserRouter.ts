@@ -2,6 +2,8 @@ import { UniversalFileAST } from './types';
 import { PythonUniversalParser } from './parsers/pythonUniversalParser';
 import { RubyUniversalParser } from './parsers/rubyUniversalParser';
 import { CppUniversalParser } from './parsers/cppUniversalParser';
+import { GoUniversalParser } from './parsers/goUniversalParser';
+import { JavaUniversalParser } from './parsers/javaUniversalParser';
 import { Messages } from '../../i18n/messages';
 import { getMessages } from '../../i18n';
 
@@ -19,6 +21,8 @@ export function normalizeLanguageId(languageId: string, fileName: string = ''): 
   ) {
     return 'cpp';
   }
+  if (lang === 'go' || ext === 'go') return 'go';
+  if (lang === 'java' || ext === 'java') return 'java';
   return 'typescript';
 }
 
@@ -36,7 +40,11 @@ export class UniversalParserRouter {
         ? new RubyUniversalParser(messages).parse(code)
         : normLang === 'cpp'
           ? new CppUniversalParser(messages).parse(code)
-          : [];
+          : normLang === 'go'
+            ? new GoUniversalParser(messages).parse(code)
+            : normLang === 'java'
+              ? new JavaUniversalParser(messages).parse(code)
+              : [];
 
     return { functions };
   }

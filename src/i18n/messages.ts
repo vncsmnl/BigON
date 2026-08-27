@@ -124,6 +124,12 @@ export interface Messages {
   cppLoopLinear: string;
   cppLoopLog: string;
   cppWhileLog: string;
+  goLoopLinear: string;
+  goLoopLog: string;
+  goLoopWhileLog: string;
+  javaLoopLinear: string;
+  javaLoopLog: string;
+  javaWhileLog: string;
   mainScript: string;
   nestedLoopsMultiLang: string;
 }

@@ -25,7 +25,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   const isSupportedDocument = (doc: vscode.TextDocument): boolean => {
     const norm = normalizeLanguageId(doc.languageId, doc.fileName);
-    return ['javascript', 'typescript', 'python', 'ruby', 'cpp'].includes(norm);
+    return ['javascript', 'typescript', 'python', 'ruby', 'cpp', 'go', 'java'].includes(norm);
   };
 
   const analyzeDocument = (doc: vscode.TextDocument): FunctionComplexityReport[] => {

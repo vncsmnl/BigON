@@ -16,4 +16,13 @@ describe('extension manifest', () => {
       expect(events).toContain(`onCommand:${command.command}`);
     }
   });
+
+  test('declares activation events for all supported languages including Go and Java', () => {
+    const events = new Set(manifest.activationEvents);
+    const expectedLangs = ['javascript', 'typescript', 'python', 'ruby', 'cpp', 'c', 'go', 'java'];
+
+    for (const lang of expectedLangs) {
+      expect(events).toContain(`onLanguage:${lang}`);
+    }
+  });
 });

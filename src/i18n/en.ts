@@ -127,6 +127,12 @@ export const en: Messages = {
   cppLoopLinear: 'C++ loop with linear step O(n)',
   cppLoopLog: 'C++ loop with multiplicative/divisive step -> O(log n)',
   cppWhileLog: 'C++ while loop with multiplicative/divisive operation -> O(log n)',
+  goLoopLinear: 'Go loop with linear step O(n)',
+  goLoopLog: 'Go loop with multiplicative/divisive step -> O(log n)',
+  goLoopWhileLog: 'Go loop with multiplicative/divisive update -> O(log n)',
+  javaLoopLinear: 'Java loop with linear step O(n)',
+  javaLoopLog: 'Java loop with multiplicative/divisive step -> O(log n)',
+  javaWhileLog: 'Java while loop with multiplicative/divisive operation -> O(log n)',
   mainScript: '<main script>',
   nestedLoopsMultiLang: 'Multi-Language Nested Loops Multiplication',
 };

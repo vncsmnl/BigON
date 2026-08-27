@@ -26,7 +26,14 @@ export class ComplexityEngine {
     const normLang = normalizeLanguageId(languageId, filePath);
     const messages = getMessages(locale);
 
-    if (normLang === 'python' || normLang === 'ruby' || normLang === 'cpp' || normLang === 'c') {
+    if (
+      normLang === 'python' ||
+      normLang === 'ruby' ||
+      normLang === 'cpp' ||
+      normLang === 'c' ||
+      normLang === 'go' ||
+      normLang === 'java'
+    ) {
       return this.analyzeUniversalCode(code, filePath, normLang, messages);
     }
 
@@ -117,7 +124,7 @@ export class ComplexityEngine {
         }
       } else if (callCount >= 2) {
         if (uFn.hasDivisionInBody) {
-          recursionComplexity = totalLoopComplexity === 'O(n)' ? 'O(n log n)' : 'O(n)';
+          recursionComplexity = totalLoopComplexity === 'O(n)' ? 'O(n log n)' : 'O(log n)';
         } else if (totalLoopComplexity === 'O(n)' || totalLoopComplexity === 'O(n^2)' || uFn.loops.length > 0) {
           recursionComplexity = 'O(n!)';
         } else {

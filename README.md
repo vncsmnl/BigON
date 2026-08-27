@@ -22,7 +22,7 @@ Diferente de profilings de execução, o BigON realiza **análise estática** at
 - **Análise Instantânea**: Feedback visual de complexidade enquanto você digita.
 - **Não Executa Código**: Análise 100% estática e segura via AST.
 - **Foco Educacional**: Explication detalhada embasada nos princípios de algoritmos (CLRS / Cormen et al.) com gráficos interativos de curvas Big-O.
-- **Suporte Multi-Linguagem**: JavaScript, TypeScript, React (JSX/TSX), Python, Ruby, C++ e C.
+- **Suporte Multi-Linguagem**: JavaScript, TypeScript, React (JSX/TSX), Python, Ruby, C++, C, Go e Java.
 
 <div align="center">
   <p><b>CodeLens e Anotações In-line no Editor</b></p>
@@ -95,7 +95,7 @@ cursor --install-extension BigON-X.X.X.vsix
 
 ## Como Usar
 
-Assim que instalada, a extensão é ativada automaticamente ao abrir qualquer arquivo em uma das linguagens suportadas (`.js`, `.ts`, `.jsx`, `.tsx`, `.py`, `.rb`, `.cpp`, `.c`).
+Assim que instalada, a extensão é ativada automaticamente ao abrir qualquer arquivo em uma das linguagens suportadas (`.js`, `.ts`, `.jsx`, `.tsx`, `.py`, `.rb`, `.cpp`, `.c`, `.go`, `.java`).
 
 ### Recursos no Editor
 
@@ -164,7 +164,7 @@ Se você é desenvolvedor e deseja compilar o projeto localmente, debugar, adici
 
 ## Limitações da Análise Estática
 
-A extensão **BigON** utiliza análise estática via **AST** (para JavaScript/TypeScript) e identificadores heurísticos sintáticos para Python, Ruby, C++ e C. 
+A extensão **BigON** utiliza análise estática via **AST** (para JavaScript/TypeScript) e identificadores heurísticos sintáticos para Python, Ruby, C++, C, Go e Java. 
 
 As estimativas representam diagnósticos estáticos baseados em padrões estruturais típicos de código e **não constituem provas matemáticas formais em runtime**. Códigos com compilação dinâmica, metaprogramação, dependência exclusiva de dados recebidos em tempo de execução ou recursões indiretas complexas podem apresentar estimativas aproximadas.
 

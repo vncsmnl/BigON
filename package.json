@@ -38,6 +38,8 @@
     "onLanguage:ruby",
     "onLanguage:cpp",
     "onLanguage:c",
+    "onLanguage:go",
+    "onLanguage:java",
     "onCommand:BigON.analyzeFile",
     "onCommand:BigON.toggleDecorations",
     "onCommand:BigON.openExplanation"

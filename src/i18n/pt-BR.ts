@@ -127,6 +127,12 @@ export const ptBR: Messages = {
   cppLoopLinear: 'Laço C++ com passo linear O(n)',
   cppLoopLog: 'Laço C++ com passo multiplicativo/divisivo -> O(log n)',
   cppWhileLog: 'Laço while C++ com alteração multiplicativa/divisiva -> O(log n)',
+  goLoopLinear: 'Laço Go com passo linear O(n)',
+  goLoopLog: 'Laço Go com passo multiplicativo/divisivo -> O(log n)',
+  goLoopWhileLog: 'Laço Go com alteração multiplicativa/divisiva -> O(log n)',
+  javaLoopLinear: 'Laço Java com passo linear O(n)',
+  javaLoopLog: 'Laço Java com passo multiplicativo/divisivo -> O(log n)',
+  javaWhileLog: 'Laço while Java com alteração multiplicativa/divisiva -> O(log n)',
   mainScript: '<script principal>',
   nestedLoopsMultiLang: 'Multiplicação de Laços Aninhados Multi-Linguagem',
 };
