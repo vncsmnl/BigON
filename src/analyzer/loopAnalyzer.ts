@@ -1,5 +1,7 @@
 import * as ts from 'typescript';
 import { BigOComplexity } from './types';
+import { Messages } from '../i18n/messages';
+import { getMessages } from '../i18n';
 
 export interface LoopComplexityInfo {
   complexity: BigOComplexity;
@@ -9,12 +11,12 @@ export interface LoopComplexityInfo {
 }
 
 export class LoopAnalyzer {
-  constructor(private sourceFile: ts.SourceFile) {}
+  constructor(private sourceFile: ts.SourceFile, private messages: Messages = getMessages('en')) {}
 
   public analyzeLoop(node: ts.Statement): LoopComplexityInfo {
     const line = this.getLineNumber(node);
     let selfComplexity: BigOComplexity = 'O(n)';
-    let explanation = 'Laço com iteração linear O(n)';
+    let explanation = this.messages.loopLinear;
 
     if (ts.isForStatement(node)) {
       const step = this.analyzeForStatement(node);
@@ -26,7 +28,7 @@ export class LoopAnalyzer {
       explanation = step.explanation;
     } else if (ts.isForOfStatement(node) || ts.isForInStatement(node)) {
       selfComplexity = 'O(n)';
-      explanation = 'Laço que percorre cada elemento da estrutura O(n)';
+      explanation = this.messages.loopStructure;
     }
 
     const subLoops: LoopComplexityInfo[] = [];
@@ -94,7 +96,7 @@ export class LoopAnalyzer {
       ) {
         return {
           complexity: 'O(log n)',
-          explanation: `Laço com passo multiplicativo/divisivo (${incText}) → O(log n)`,
+          explanation: this.messages.loopMultStep(incText),
         };
       }
     }
@@ -113,7 +115,7 @@ export class LoopAnalyzer {
     ) {
       return {
         complexity: 'O(log n)',
-        explanation: 'Laço for com alteração multiplicativa/divisiva no corpo → O(log n)',
+        explanation: this.messages.loopMultBody,
       };
     }
 
@@ -122,20 +124,20 @@ export class LoopAnalyzer {
       if (condText.includes('* i') || condText.includes('sqrt') || condText.includes('Math.sqrt')) {
         return {
           complexity: 'O(sqrt n)',
-          explanation: `Laço com limite quadrático (${condText}) → O(sqrt n)`,
+          explanation: this.messages.loopSqrtBound(condText),
         };
       }
       if (/\b[A-Za-z_$][\w$]*\s*\(/.test(condText)) {
         return {
           complexity: 'O(desconhecido)',
-          explanation: `Limite do laço depende de chamada (${condText}); complexidade não determinável`,
+          explanation: this.messages.loopUnknownBound(condText),
         };
       }
     }
 
     return {
       complexity: 'O(n)',
-      explanation: 'Laço for com passo linear → O(n)',
+      explanation: this.messages.loopForLinear,
     };
   }
 
@@ -160,20 +162,20 @@ export class LoopAnalyzer {
     ) {
       return {
         complexity: 'O(log n)',
-        explanation: 'Laço while dividindo/multiplicando variável de controle por constante → O(log n)',
+        explanation: this.messages.loopWhileLog,
       };
     }
 
     if (condText.includes('sqrt') || condText.includes('Math.sqrt')) {
       return {
         complexity: 'O(sqrt n)',
-        explanation: 'Laço while com verificação de raiz quadrada → O(sqrt n)',
+        explanation: this.messages.loopWhileSqrt,
       };
     }
 
     return {
       complexity: 'O(n)',
-      explanation: 'Laço while com decremento/incremento linear → O(n)',
+      explanation: this.messages.loopWhileLinear,
     };
   }
 

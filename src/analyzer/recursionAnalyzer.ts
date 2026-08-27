@@ -1,5 +1,7 @@
 import * as ts from 'typescript';
 import { BigOComplexity } from './types';
+import { Messages } from '../i18n/messages';
+import { getMessages } from '../i18n';
 
 export interface RecursionAnalysisResult {
   isRecursive: boolean;
@@ -10,20 +12,20 @@ export interface RecursionAnalysisResult {
 }
 
 export class RecursionAnalyzer {
-  constructor(private sourceFile: ts.SourceFile) {}
+  constructor(private sourceFile: ts.SourceFile, private messages: Messages = getMessages('en')) {}
 
   public analyzeFunction(
     functionNode: ts.FunctionDeclaration | ts.FunctionExpression | ts.ArrowFunction | ts.MethodDeclaration,
     functionName: string,
     loopComplexityInFunction: BigOComplexity
   ): RecursionAnalysisResult {
-    if (!functionName || functionName === 'função anônima') {
+    if (!functionName || functionName === 'função anônima' || functionName === 'anonymous function') {
       return {
         isRecursive: false,
         callCount: 0,
         reductionType: 'unknown',
         complexity: 'O(1)',
-        explanation: 'Função sem recursão identificada',
+        explanation: this.messages.recursionNone,
       };
     }
 
@@ -36,7 +38,7 @@ export class RecursionAnalyzer {
         callCount: 0,
         reductionType: 'unknown',
         complexity: 'O(1)',
-        explanation: 'Nenhuma auto-chamada recursiva encontrada',
+        explanation: this.messages.recursionSelfCallNone,
       };
     }
 
@@ -75,44 +77,44 @@ export class RecursionAnalyzer {
     if (callsInPath <= 1) {
       if (hasDivision) {
         complexity = 'O(log n)';
-        explanation = `Recursão simples com divisão por 2 em ramo único T(n) = T(n/2) + O(1) → O(log n) (Ex: Busca Binária)`;
+        explanation = this.messages.recursionBinarySearch;
       } else if (hasCallInsideLoop && (loopComplexityInFunction === 'O(n)' || loopComplexityInFunction === 'O(n^2)')) {
         complexity = 'O(n!)';
-        explanation = `Chamada recursiva executada dentro de laço linear T(n) = n * T(n-1) → Custo Fatorial O(n!) (Ex: Permutações)`;
+        explanation = this.messages.recursionInsideLoop;
       } else if (loopComplexityInFunction === 'O(n)') {
         complexity = 'O(n^2)';
-        explanation = `Recursão simples com laço linear T(n) = T(n-1) + O(n) → O(n²) (Ex: Selection Sort / Insertion Sort)`;
+        explanation = this.messages.recursionSelectionSort;
       } else if (loopComplexityInFunction === 'O(n^2)') {
         complexity = 'O(n^3)';
-        explanation = `Recursão simples com laço quadrático T(n) = T(n-1) + O(n²) → O(n³)`;
+        explanation = this.messages.recursionQuadraticLoop;
       } else {
         complexity = 'O(n)';
-        explanation = `Recursão linear T(n) = T(n-1) + O(1) → O(n)`;
+        explanation = this.messages.recursionLinear;
       }
     } else {
       if (hasDivision) {
         if (loopComplexityInFunction === 'O(n)') {
           complexity = 'O(n log n)';
-          explanation = `Teorema Mestre: T(n) = ${callsInPath}T(n/2) + O(n) → O(n log n) (Ex: Merge Sort)`;
+          explanation = this.messages.masterTheoremMergeSort(callsInPath);
         } else {
           complexity = 'O(n)';
-          explanation = `Teorema Mestre: T(n) = ${callsInPath}T(n/2) + O(1) → O(n) (Árvore de recursão)`;
+          explanation = this.messages.masterTheoremTree(callsInPath);
         }
       } else if (hasSubtraction) {
         if (loopComplexityInFunction === 'O(n)' || loopComplexityInFunction === 'O(n^2)') {
           complexity = 'O(n!)';
-          explanation = `Múltiplas chamadas recursivas com laço linear T(n) = n * T(n-1) → Custo Fatorial O(n!) (Ex: Permutações)`;
+          explanation = this.messages.recursionInsideLoop;
         } else {
           complexity = 'O(2^n)';
-          explanation = `Recursão ramificada no mesmo caminho T(n) = 2T(n-1) → Custo Exponencial O(2^n) (Ex: Fibonacci Ingênuo)`;
+          explanation = this.messages.recursionFibonacci;
         }
       } else {
         if (loopComplexityInFunction === 'O(n)' || loopComplexityInFunction === 'O(n^2)') {
           complexity = 'O(n!)';
-          explanation = `Múltiplas chamadas recursivas com laço linear → O(n!) (Ex: Permutações)`;
+          explanation = this.messages.recursionInsideLoop;
         } else {
           complexity = 'O(2^n)';
-          explanation = `Múltiplas chamadas recursivas no mesmo caminho → O(2^n)`;
+          explanation = this.messages.recursionMultiBranch;
         }
       }
     }

@@ -2,6 +2,8 @@ import { UniversalFileAST } from './types';
 import { PythonUniversalParser } from './parsers/pythonUniversalParser';
 import { RubyUniversalParser } from './parsers/rubyUniversalParser';
 import { CppUniversalParser } from './parsers/cppUniversalParser';
+import { Messages } from '../../i18n/messages';
+import { getMessages } from '../../i18n';
 
 export function normalizeLanguageId(languageId: string, fileName: string = ''): string {
   const lang = (languageId || '').toLowerCase();
@@ -21,14 +23,19 @@ export function normalizeLanguageId(languageId: string, fileName: string = ''): 
 }
 
 export class UniversalParserRouter {
-  public parse(code: string, languageId: string, fileName: string = ''): UniversalFileAST {
+  public parse(
+    code: string,
+    languageId: string,
+    fileName: string = '',
+    messages: Messages = getMessages('en')
+  ): UniversalFileAST {
     const normLang = normalizeLanguageId(languageId, fileName);
     const functions = normLang === 'python'
-      ? new PythonUniversalParser().parse(code)
+      ? new PythonUniversalParser(messages).parse(code)
       : normLang === 'ruby'
-        ? new RubyUniversalParser().parse(code)
+        ? new RubyUniversalParser(messages).parse(code)
         : normLang === 'cpp'
-          ? new CppUniversalParser().parse(code)
+          ? new CppUniversalParser(messages).parse(code)
           : [];
 
     return { functions };

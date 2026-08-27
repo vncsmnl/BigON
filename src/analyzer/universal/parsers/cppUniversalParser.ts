@@ -1,6 +1,10 @@
 import { UniversalFunctionNode, UniversalLoopNode, UniversalCallNode } from '../types';
+import { Messages } from '../../../i18n/messages';
+import { getMessages } from '../../../i18n';
 
 export class CppUniversalParser {
+  constructor(private messages: Messages = getMessages('en')) {}
+
   public parse(code: string): UniversalFunctionNode[] {
     const lines = code.split(/\r?\n/);
     const functions: UniversalFunctionNode[] = [];
@@ -98,7 +102,7 @@ export class CppUniversalParser {
 
       functions.push({
         type: 'function',
-        name: '<script principal>',
+        name: this.messages.mainScript,
         startLine: 1,
         endLine: lines.length,
         bodyText: scriptText,
@@ -119,7 +123,7 @@ export class CppUniversalParser {
 
       functions.push({
         type: 'function',
-        name: '<script principal>',
+        name: this.messages.mainScript,
         startLine,
         endLine,
         bodyText: scriptText,
@@ -185,7 +189,7 @@ export class CppUniversalParser {
 
       if (isFor || isWhile) {
         let stepType: 'linear' | 'logarithmic' | 'sqrt' = 'linear';
-        let explanation = 'Laço C++ com passo linear O(n)';
+        let explanation = this.messages.cppLoopLinear;
 
         if (
           /\/=\s*\d+/.test(l.text) ||
@@ -197,7 +201,7 @@ export class CppUniversalParser {
           />>\s*\d+/.test(l.text)
         ) {
           stepType = 'logarithmic';
-          explanation = 'Laço C++ com passo multiplicativo/divisivo -> O(log n)';
+          explanation = this.messages.cppLoopLog;
         }
 
         const loopNode: UniversalLoopNode = {
@@ -228,8 +232,7 @@ export class CppUniversalParser {
             />>\s*\d+/.test(l.text)
           ) {
             stack[stack.length - 1].stepType = 'logarithmic';
-            stack[stack.length - 1].explanation =
-              'Laço while C++ com alteração multiplicativa/divisiva -> O(log n)';
+            stack[stack.length - 1].explanation = this.messages.cppWhileLog;
           }
         }
         if (l.text.includes('}')) {

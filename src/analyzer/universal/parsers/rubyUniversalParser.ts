@@ -1,6 +1,10 @@
 import { UniversalFunctionNode, UniversalLoopNode, UniversalCallNode } from '../types';
+import { Messages } from '../../../i18n/messages';
+import { getMessages } from '../../../i18n';
 
 export class RubyUniversalParser {
+  constructor(private messages: Messages = getMessages('en')) {}
+
   public parse(code: string): UniversalFunctionNode[] {
     const lines = code.split(/\r?\n/);
     const functions: UniversalFunctionNode[] = [];
@@ -62,7 +66,7 @@ export class RubyUniversalParser {
 
       functions.push({
         type: 'function',
-        name: '<script principal>',
+        name: this.messages.mainScript,
         startLine: 1,
         endLine: lines.length,
         bodyText: scriptText,
@@ -82,7 +86,7 @@ export class RubyUniversalParser {
 
       functions.push({
         type: 'function',
-        name: '<script principal>',
+        name: this.messages.mainScript,
         startLine,
         endLine,
         bodyText: scriptText,
@@ -150,7 +154,7 @@ export class RubyUniversalParser {
 
       if (isTimes || isFor || isWhile) {
         let stepType: 'linear' | 'logarithmic' | 'sqrt' = 'linear';
-        let explanation = 'Laço Ruby com iteração O(n)';
+        let explanation = this.messages.rubyLoopLinear;
 
         if (isWhile) {
           for (let j = i + 1; j < lines.length; j++) {
@@ -158,7 +162,7 @@ export class RubyUniversalParser {
             if (inner.includes('end')) break;
             if (inner.includes('/= 2') || inner.includes('/ 2') || inner.includes('>>= 1')) {
               stepType = 'logarithmic';
-              explanation = 'Laço while Ruby com divisão de controle -> O(log n)';
+              explanation = this.messages.rubyWhileLog;
               break;
             }
           }

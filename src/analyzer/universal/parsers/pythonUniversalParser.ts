@@ -1,6 +1,10 @@
 import { UniversalFunctionNode, UniversalLoopNode, UniversalCallNode } from '../types';
+import { Messages } from '../../../i18n/messages';
+import { getMessages } from '../../../i18n';
 
 export class PythonUniversalParser {
+  constructor(private messages: Messages = getMessages('en')) {}
+
   public parse(code: string): UniversalFunctionNode[] {
     const lines = code.split(/\r?\n/);
     const functions: UniversalFunctionNode[] = [];
@@ -79,7 +83,7 @@ export class PythonUniversalParser {
 
       functions.push({
         type: 'function',
-        name: '<script principal>',
+        name: this.messages.mainScript,
         startLine: 1,
         endLine: lines.length,
         bodyText: scriptText,
@@ -102,7 +106,7 @@ export class PythonUniversalParser {
 
       functions.push({
         type: 'function',
-        name: '<script principal>',
+        name: this.messages.mainScript,
         startLine,
         endLine,
         bodyText: scriptText,
@@ -173,7 +177,7 @@ export class PythonUniversalParser {
 
       if (isFor || isWhile) {
         let stepType: 'linear' | 'logarithmic' | 'sqrt' = 'linear';
-        let explanation = 'Laço Python com passo linear O(n)';
+        let explanation = this.messages.pythonLoopLinear;
 
         if (isWhile) {
           if (
@@ -186,7 +190,7 @@ export class PythonUniversalParser {
             />>\s*\d+/.test(l.text)
           ) {
             stepType = 'logarithmic';
-            explanation = 'Laço while Python dividindo por constante -> O(log n)';
+            explanation = this.messages.pythonWhileLog;
           }
         }
 
@@ -222,8 +226,7 @@ export class PythonUniversalParser {
             />>\s*\d+/.test(l.text)
           ) {
             stack[stack.length - 1].node.stepType = 'logarithmic';
-            stack[stack.length - 1].node.explanation =
-              'Laço while Python com divisão de variável de controle -> O(log n)';
+            stack[stack.length - 1].node.explanation = this.messages.pythonWhileVar;
           }
         }
       }

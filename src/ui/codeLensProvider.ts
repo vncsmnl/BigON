@@ -32,7 +32,7 @@ export class AsymptoticCodeLensProvider implements vscode.CodeLensProvider {
 
     const normLang = normalizeLanguageId(document.languageId, document.fileName);
     const code = document.getText();
-    const result = this.engine.analyzeCode(code, document.fileName, normLang);
+    const result = this.engine.analyzeCode(code, document.fileName, normLang, vscode.env.language);
     const messages = getMessages(vscode.env.language);
     this.reportsCache.set(document.uri.toString(), result.functions);
 
@@ -42,7 +42,7 @@ export class AsymptoticCodeLensProvider implements vscode.CodeLensProvider {
       const position = new vscode.Position(fnReport.startLine - 1, 0);
       const range = new vscode.Range(position, position);
 
-      const title = `$(pulse) BigON: ${messages.time} ${fnReport.timeComplexity} | ${messages.space} ${fnReport.spaceComplexity} [${messages.explanation}]`;
+      const title = `$(pulse) BigON: ${messages.time} ${fnReport.timeComplexity} | ${messages.space} ${fnReport.spaceComplexity} [${messages.viewExplanation}]`;
 
       const codeLens = new vscode.CodeLens(range, {
         title,

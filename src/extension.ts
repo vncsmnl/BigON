@@ -33,7 +33,7 @@ export function activate(context: vscode.ExtensionContext) {
       return [];
     }
     const normLang = normalizeLanguageId(doc.languageId, doc.fileName);
-    const result = engine.analyzeCode(doc.getText(), doc.fileName, normLang);
+    const result = engine.analyzeCode(doc.getText(), doc.fileName, normLang, vscode.env.language);
     reportsCache.set(doc.uri.toString(), result.functions);
     return result.functions;
   };

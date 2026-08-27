@@ -1,24 +1,26 @@
 import * as ts from 'typescript';
 import { BigOComplexity } from './types';
 import { RecursionAnalysisResult } from './recursionAnalyzer';
+import { Messages } from '../i18n/messages';
+import { getMessages } from '../i18n';
 
 export class SpaceAnalyzer {
-  constructor(private sourceFile: ts.SourceFile) {}
+  constructor(private sourceFile: ts.SourceFile, private messages: Messages = getMessages('en')) {}
 
   public analyzeSpace(
     functionNode: ts.Node,
     recursionInfo: RecursionAnalysisResult
   ): { spaceComplexity: BigOComplexity; explanation: string } {
     let spaceComplexity: BigOComplexity = 'O(1)';
-    let explanation = 'Espaço auxiliar constante O(1) (sem alocações dinâmicas ou pilha profunda)';
+    let explanation = this.messages.spaceConstant;
 
     if (recursionInfo.isRecursive) {
       if (recursionInfo.reductionType === 'division') {
         spaceComplexity = 'O(log n)';
-        explanation = 'Profundidade máxima da pilha de chamadas recursivas é O(log n)';
+        explanation = this.messages.spaceStackLog;
       } else {
         spaceComplexity = 'O(n)';
-        explanation = 'Profundidade máxima da pilha de chamadas recursivas é O(n)';
+        explanation = this.messages.spaceStackLinear;
       }
     }
 
@@ -37,12 +39,12 @@ export class SpaceAnalyzer {
       ) {
         if (spaceComplexity === 'O(1)' || spaceComplexity === 'O(n)' || spaceComplexity === 'O(log n)') {
           spaceComplexity = 'O(n^2)';
-          explanation = 'Alocação de estrutura de dados bidimensional (matriz/tabela) de tamanho O(n²)';
+          explanation = this.messages.spaceMatrix;
         }
       } else {
         if (spaceComplexity === 'O(1)') {
           spaceComplexity = 'O(n)';
-          explanation = 'Alocação de vetor/lista com tamanho proporcional a N → O(n)';
+          explanation = this.messages.spaceVector;
         }
       }
     }

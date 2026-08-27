@@ -4,6 +4,8 @@ import { RecursionAnalyzer } from './recursionAnalyzer';
 import { SpaceAnalyzer } from './spaceAnalyzer';
 import { UniversalParserRouter, normalizeLanguageId } from './universal/universalParserRouter';
 import { UniversalFunctionNode, UniversalLoopNode } from './universal/types';
+import { getMessages } from '../i18n';
+import { Messages } from '../i18n/messages';
 import {
   BigOComplexity,
   FileAnalysisResult,
@@ -15,19 +17,25 @@ import {
 export class ComplexityEngine {
   private router = new UniversalParserRouter();
 
-  public analyzeCode(code: string, filePath: string = 'file.ts', languageId: string = 'typescript'): FileAnalysisResult {
+  public analyzeCode(
+    code: string,
+    filePath: string = 'file.ts',
+    languageId: string = 'typescript',
+    locale: string = 'en'
+  ): FileAnalysisResult {
     const normLang = normalizeLanguageId(languageId, filePath);
+    const messages = getMessages(locale);
 
     if (normLang === 'python' || normLang === 'ruby' || normLang === 'cpp' || normLang === 'c') {
-      return this.analyzeUniversalCode(code, filePath, normLang);
+      return this.analyzeUniversalCode(code, filePath, normLang, messages);
     }
 
     const sourceFile = ts.createSourceFile(filePath, code, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
     const functions: FunctionComplexityReport[] = [];
 
-    const loopAnalyzer = new LoopAnalyzer(sourceFile);
-    const recursionAnalyzer = new RecursionAnalyzer(sourceFile);
-    const spaceAnalyzer = new SpaceAnalyzer(sourceFile);
+    const loopAnalyzer = new LoopAnalyzer(sourceFile, messages);
+    const recursionAnalyzer = new RecursionAnalyzer(sourceFile, messages);
+    const spaceAnalyzer = new SpaceAnalyzer(sourceFile, messages);
 
     const visitor = (node: ts.Node) => {
       if (
@@ -41,7 +49,8 @@ export class ComplexityEngine {
           sourceFile,
           loopAnalyzer,
           recursionAnalyzer,
-          spaceAnalyzer
+          spaceAnalyzer,
+          messages
         );
         functions.push(report);
       }
@@ -56,12 +65,17 @@ export class ComplexityEngine {
     };
   }
 
-  private analyzeUniversalCode(code: string, filePath: string, languageId: string): FileAnalysisResult {
-    const universalFile = this.router.parse(code, languageId, filePath);
+  private analyzeUniversalCode(
+    code: string,
+    filePath: string,
+    languageId: string,
+    messages: Messages
+  ): FileAnalysisResult {
+    const universalFile = this.router.parse(code, languageId, filePath, messages);
     const functions: FunctionComplexityReport[] = [];
 
     for (const uFn of universalFile.functions) {
-      functions.push(this.analyzeUniversalFunction(uFn));
+      functions.push(this.analyzeUniversalFunction(uFn, messages));
     }
 
     return {
@@ -70,13 +84,13 @@ export class ComplexityEngine {
     };
   }
 
-  private analyzeUniversalFunction(uFn: UniversalFunctionNode): FunctionComplexityReport {
+  private analyzeUniversalFunction(uFn: UniversalFunctionNode, messages: Messages): FunctionComplexityReport {
     const annotations: LineAnnotation[] = [];
     const reasoningSteps: ReasoningStep[] = [];
 
     let totalLoopComplexity: BigOComplexity = 'O(1)';
     for (const loop of uFn.loops) {
-      const loopCost = this.calculateUniversalLoopCost(loop, annotations, reasoningSteps);
+      const loopCost = this.calculateUniversalLoopCost(loop, annotations, reasoningSteps, messages);
       totalLoopComplexity = maxBigO(totalLoopComplexity, loopCost);
     }
 
@@ -113,18 +127,16 @@ export class ComplexityEngine {
 
       reasoningSteps.push({
         type: 'recursion',
-        title: `Análise de Recursão (${uFn.name})`,
-        detail: `Detectadas ${callCount} auto-chamadas recursivas em ${uFn.name}${
-          recursionComplexity === 'O(n!)' ? ' combinadas com laço linear T(n) = n * T(n-1) → O(n!)' : ''
-        }`,
+        title: messages.recursionTitleNamed(uFn.name),
+        detail: messages.recursionDetailNamed(callCount, uFn.name, recursionComplexity === 'O(n!)'),
         complexity: recursionComplexity,
       });
 
       annotations.push({
         line: uFn.startLine,
         cost: recursionComplexity,
-        label: `← Recursão: ${recursionComplexity}`,
-        explanation: `Chamada recursiva na função ${uFn.name}`,
+        label: messages.recursionLabel(recursionComplexity),
+        explanation: messages.recursionCallExplanation(uFn.name),
       });
     }
 
@@ -135,16 +147,16 @@ export class ComplexityEngine {
     if (hasPermutationsCall) {
       reasoningSteps.push({
         type: 'summary',
-        title: 'Uso de Gerador/Função de Permutação',
-        detail: 'Detectada chamada para gerador ou função de permutação (ex: permutations / next_permutation) → Custo Fatorial O(n!)',
+        title: messages.permutationTitle,
+        detail: messages.permutationDetail,
         complexity: 'O(n!)',
       });
 
       annotations.push({
         line: uFn.startLine,
         cost: 'O(n!)',
-        label: '← Permutação: O(n!)',
-        explanation: 'Função executa operação de permutação O(n!)',
+        label: messages.permutationLabel,
+        explanation: messages.permutationExplanation,
       });
     }
 
@@ -154,26 +166,26 @@ export class ComplexityEngine {
     );
 
     let spaceComplexity: BigOComplexity = 'O(1)';
-    let spaceDetail = 'Espaço constante O(1)';
+    let spaceDetail = messages.spaceConstant;
     if (isRecursive) {
       spaceComplexity = uFn.hasDivisionInBody ? 'O(log n)' : 'O(n)';
-      spaceDetail = `Pilha de chamadas recursivas com profundidade ${spaceComplexity}`;
+      spaceDetail = messages.spaceStackDetail(spaceComplexity);
     } else if (hasPermutationsCall) {
       spaceComplexity = 'O(n)';
-      spaceDetail = 'Estrutura/Gerador de permutações aloca espaço O(n)';
+      spaceDetail = messages.spacePermutationDetail;
     }
 
     reasoningSteps.push({
       type: 'space',
-      title: 'Análise de Espaço',
+      title: messages.spaceTitle,
       detail: spaceDetail,
       complexity: spaceComplexity,
     });
 
     reasoningSteps.push({
       type: 'summary',
-      title: 'Resultado Final Assintótico',
-      detail: `Tempo: ${finalTimeComplexity} | Espaço: ${spaceComplexity}`,
+      title: messages.summaryFinalResult,
+      detail: messages.summaryTimeSpace(finalTimeComplexity, spaceComplexity),
       complexity: finalTimeComplexity,
     });
 
@@ -195,14 +207,15 @@ export class ComplexityEngine {
     loop: UniversalLoopNode,
     annotations: LineAnnotation[],
     reasoningSteps: ReasoningStep[],
+    messages: Messages,
     depth: number = 1
   ): BigOComplexity {
     const loopCost: BigOComplexity = loop.stepType === 'logarithmic' ? 'O(log n)' : loop.stepType === 'sqrt' ? 'O(sqrt n)' : 'O(n)';
-    const depthLabel = depth === 1 ? 'Laço externo' : depth === 2 ? 'Laço interno' : `Laço nível ${depth}`;
+    const depthLabel = depth === 1 ? messages.outerLoop : depth === 2 ? messages.innerLoop : messages.loopLevel(depth);
 
     let subMax: BigOComplexity = 'O(1)';
     for (const sub of loop.subLoops) {
-      const c = this.calculateUniversalLoopCost(sub, annotations, reasoningSteps, depth + 1);
+      const c = this.calculateUniversalLoopCost(sub, annotations, reasoningSteps, messages, depth + 1);
       subMax = maxBigO(subMax, c);
     }
 
@@ -212,21 +225,21 @@ export class ComplexityEngine {
       line: loop.line,
       cost: combined,
       label: `← ${depthLabel}: ${combined}`,
-      explanation: loop.explanation + (combined !== loopCost ? ` (com laços internos → ${combined})` : ''),
+      explanation: loop.explanation + (combined !== loopCost ? messages.nestedLoopsWithInner(combined) : ''),
     });
 
     reasoningSteps.push({
       type: 'loop',
-      title: `${depthLabel} (Linha ${loop.line})`,
-      detail: `${loop.explanation}${combined !== loopCost ? ` (com laços internos → ${combined})` : ''}`,
+      title: `${depthLabel} (${messages.location} ${loop.line})`,
+      detail: `${loop.explanation}${combined !== loopCost ? messages.nestedLoopsWithInner(combined) : ''}`,
       complexity: combined,
     });
 
     if (depth === 1 && combined !== loopCost) {
       reasoningSteps.push({
         type: 'loop',
-        title: 'Multiplicação de Laços Aninhados Multi-Linguagem',
-        detail: `${loopCost} (externo) × ${subMax} (interno) → ${combined}`,
+        title: messages.nestedLoopsMultiLang,
+        detail: messages.nestedLoopsMultDetail(loopCost, subMax, combined),
         complexity: combined,
       });
     }
@@ -239,7 +252,8 @@ export class ComplexityEngine {
     sourceFile: ts.SourceFile,
     loopAnalyzer: LoopAnalyzer,
     recursionAnalyzer: RecursionAnalyzer,
-    spaceAnalyzer: SpaceAnalyzer
+    spaceAnalyzer: SpaceAnalyzer,
+    messages: Messages
   ): FunctionComplexityReport {
     const functionName = this.extractFunctionName(node);
     const { line: startLine } = sourceFile.getLineAndCharacterOfPosition(node.getStart(sourceFile));
@@ -255,7 +269,7 @@ export class ComplexityEngine {
 
     let totalLoopComplexity: BigOComplexity = 'O(1)';
     for (const loop of topLoops) {
-      const loopCost = this.calculateLoopTreeCost(loop, annotations, reasoningSteps);
+      const loopCost = this.calculateLoopTreeCost(loop, annotations, reasoningSteps, messages);
       totalLoopComplexity = maxBigO(totalLoopComplexity, loopCost);
     }
 
@@ -264,7 +278,7 @@ export class ComplexityEngine {
     if (recursionInfo.isRecursive) {
       reasoningSteps.push({
         type: 'recursion',
-        title: 'Análise de Recursão',
+        title: messages.recursionTitle,
         detail: recursionInfo.explanation,
         complexity: recursionInfo.complexity,
       });
@@ -272,7 +286,7 @@ export class ComplexityEngine {
       annotations.push({
         line: startLine + 1,
         cost: recursionInfo.complexity,
-        label: `← Recursão: ${recursionInfo.complexity}`,
+        label: messages.recursionLabel(recursionInfo.complexity),
         explanation: recursionInfo.explanation,
       });
     }
@@ -284,16 +298,16 @@ export class ComplexityEngine {
     if (hasPermutationsCall) {
       reasoningSteps.push({
         type: 'summary',
-        title: 'Uso de Gerador/Função de Permutação',
-        detail: 'Detectada chamada para gerador ou função de permutação (permutations) → Custo Fatorial O(n!)',
+        title: messages.permutationTitle,
+        detail: messages.permutationDetail,
         complexity: 'O(n!)',
       });
 
       annotations.push({
         line: startLine + 1,
         cost: 'O(n!)',
-        label: '← Permutação: O(n!)',
-        explanation: 'Função executa operação de permutação O(n!)',
+        label: messages.permutationLabel,
+        explanation: messages.permutationExplanation,
       });
     }
 
@@ -305,15 +319,15 @@ export class ComplexityEngine {
     const spaceInfo = spaceAnalyzer.analyzeSpace(node, recursionInfo);
     reasoningSteps.push({
       type: 'space',
-      title: 'Análise de Espaço Memória',
+      title: messages.spaceTitle,
       detail: spaceInfo.explanation,
       complexity: spaceInfo.spaceComplexity,
     });
 
     reasoningSteps.push({
       type: 'summary',
-      title: 'Resultado Final da Análise Assintótica',
-      detail: `Tempo: ${finalTimeComplexity} | Espaço: ${spaceInfo.spaceComplexity}`,
+      title: messages.summaryFinalResult,
+      detail: messages.summaryTimeSpace(finalTimeComplexity, spaceInfo.spaceComplexity),
       complexity: finalTimeComplexity,
     });
 
@@ -335,13 +349,14 @@ export class ComplexityEngine {
     loop: LoopComplexityInfo,
     annotations: LineAnnotation[],
     reasoningSteps: ReasoningStep[],
+    messages: Messages,
     depth: number = 1
   ): BigOComplexity {
-    const depthLabel = depth === 1 ? 'Laço externo' : depth === 2 ? 'Laço interno' : `Laço nível ${depth}`;
+    const depthLabel = depth === 1 ? messages.outerLoop : depth === 2 ? messages.innerLoop : messages.loopLevel(depth);
 
     let subLoopsMaxCost: BigOComplexity = 'O(1)';
     for (const sub of loop.subLoops) {
-      const subCost = this.calculateLoopTreeCost(sub, annotations, reasoningSteps, depth + 1);
+      const subCost = this.calculateLoopTreeCost(sub, annotations, reasoningSteps, messages, depth + 1);
       subLoopsMaxCost = maxBigO(subLoopsMaxCost, subCost);
     }
 
@@ -351,21 +366,21 @@ export class ComplexityEngine {
       line: loop.line,
       cost: combined,
       label: `← ${depthLabel}: ${combined}`,
-      explanation: loop.explanation + (combined !== loop.complexity ? ` (com laços internos → ${combined})` : ''),
+      explanation: loop.explanation + (combined !== loop.complexity ? messages.nestedLoopsWithInner(combined) : ''),
     });
 
     reasoningSteps.push({
       type: 'loop',
-      title: `${depthLabel} (Linha ${loop.line})`,
-      detail: `${loop.explanation}${combined !== loop.complexity ? ` (com laços internos → ${combined})` : ''}`,
+      title: `${depthLabel} (${messages.location} ${loop.line})`,
+      detail: `${loop.explanation}${combined !== loop.complexity ? messages.nestedLoopsWithInner(combined) : ''}`,
       complexity: combined,
     });
 
     if (depth === 1 && combined !== loop.complexity) {
       reasoningSteps.push({
         type: 'loop',
-        title: 'Multiplicação dos Laços Aninhados',
-        detail: `${loop.complexity} (externo) × ${subLoopsMaxCost} (interno) → ${combined}`,
+        title: messages.nestedLoopsMultiplication,
+        detail: messages.nestedLoopsMultDetail(loop.complexity, subLoopsMaxCost, combined),
         complexity: combined,
       });
     }

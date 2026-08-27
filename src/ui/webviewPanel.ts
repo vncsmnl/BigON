@@ -43,6 +43,8 @@ export class ExplanationWebviewPanel {
       ? vscode.window.activeTextEditor.viewColumn
       : undefined;
 
+    const messages = getMessages(vscode.env.language);
+
     if (ExplanationWebviewPanel.currentPanel) {
       ExplanationWebviewPanel.currentPanel._panel.reveal(column);
       ExplanationWebviewPanel.currentPanel.update(report);
@@ -51,7 +53,7 @@ export class ExplanationWebviewPanel {
 
     const panel = vscode.window.createWebviewPanel(
       'asymptoticExplanation',
-      `${report.functionName} · complexidade`,
+      `${report.functionName} · ${messages.complexity.toLowerCase()}`,
       column || vscode.ViewColumn.One,
       {
         enableScripts: true,
@@ -62,7 +64,8 @@ export class ExplanationWebviewPanel {
   }
 
   public update(report: FunctionComplexityReport): void {
-    this._panel.title = `${report.functionName} · complexidade`;
+    const messages = getMessages(vscode.env.language);
+    this._panel.title = `${report.functionName} · ${messages.complexity.toLowerCase()}`;
     this._panel.webview.html = this.getHtmlForWebview(report);
   }
 
@@ -131,65 +134,65 @@ export class ExplanationWebviewPanel {
       {
         id: 'O(1)',
         label: 'O(1)',
-        cormenClass: 'Constante',
+        cormenClass: this.messages.constantClass,
         efficiency: 'Excelente',
         color: '#4ec9b0',
         pathD: 'M 60 210 L 510 210',
-        desc: 'Tempo constante. O tempo de execução não depende do tamanho do problema n.'
+        desc: this.messages.constantDesc,
       },
       {
         id: 'O(log n)',
         label: 'O(log n)',
-        cormenClass: 'Logarítmica',
+        cormenClass: this.messages.logarithmicClass,
         efficiency: 'Excelente',
         color: '#4daafc',
         pathD: 'M 60 210 Q 150 180, 510 160',
-        desc: 'Crescimento logarítmico. Exemplo: Busca Binária (Cormen Cap. 2.3).'
+        desc: this.messages.logarithmicDesc,
       },
       {
         id: 'O(n)',
         label: 'O(n)',
-        cormenClass: 'Linear',
+        cormenClass: this.messages.linearClass,
         efficiency: 'Boa',
         color: '#b5cea8',
         pathD: 'M 60 210 L 510 110',
-        desc: 'Tempo linear. O tempo cresce proporcionalmente ao tamanho da entrada n.'
+        desc: this.messages.linearDesc,
       },
       {
         id: 'O(n log n)',
         label: 'O(n log n)',
-        cormenClass: 'Linearítmica / Quasilinear',
+        cormenClass: this.messages.linearithmicClass,
         efficiency: 'Aceitável',
         color: '#dcdcaa',
         pathD: 'M 60 210 Q 280 140, 510 65',
-        desc: 'Crescimento quasilinear. Exemplo: Merge Sort e Heap Sort (Cormen Cap. 2.3 & 6).'
+        desc: this.messages.linearithmicDesc,
       },
       {
         id: 'O(n²)',
         label: 'O(n²)',
-        cormenClass: 'Quadrática',
+        cormenClass: this.messages.quadraticClass,
         efficiency: 'Ruim',
         color: '#ce9178',
         pathD: 'M 60 210 Q 320 180, 480 30',
-        desc: 'Tempo quadrático. Típico de laços aninhados simples. Exemplo: Insertion Sort (Cormen Cap. 2.1).'
+        desc: this.messages.quadraticDesc,
       },
       {
         id: 'O(2^n)',
         label: 'O(2^n)',
-        cormenClass: 'Exponencial',
+        cormenClass: this.messages.exponentialClass,
         efficiency: 'Péssima',
         color: '#f44747',
         pathD: 'M 60 210 Q 260 200, 310 30',
-        desc: 'Crescimento exponencial. Intratável para valores médios/grandes de n.'
+        desc: this.messages.exponentialDesc,
       },
       {
         id: 'O(n!)',
         label: 'O(n!)',
-        cormenClass: 'Fatorial',
+        cormenClass: this.messages.factorialClass,
         efficiency: 'Péssima',
         color: '#d16969',
         pathD: 'M 60 210 Q 180 205, 210 30',
-        desc: 'Crescimento fatorial. Algoritmos de força bruta para permutações (ex.: Caixeiro Viajante).'
+        desc: this.messages.factorialDesc,
       }
     ];
 
@@ -277,8 +280,8 @@ export class ExplanationWebviewPanel {
           <polygon points="57,25 60,18 63,25" fill="var(--vscode-foreground)" fill-opacity="0.7"/>
 
           <!-- Rótulos dos Eixos -->
-          <text x="285" y="238" text-anchor="middle" class="axis-label">Tamanho da Entrada (n) →</text>
-          <text x="22" y="120" text-anchor="middle" transform="rotate(-90 22 120)" class="axis-label">Operações / Memória →</text>
+          <text x="285" y="238" text-anchor="middle" class="axis-label">${this.messages.axisLabelInput}</text>
+          <text x="22" y="120" text-anchor="middle" transform="rotate(-90 22 120)" class="axis-label">${this.messages.axisLabelOps}</text>
 
           <!-- Curvas de Crescimento -->
           ${curvesSvg}
@@ -336,12 +339,12 @@ export class ExplanationWebviewPanel {
     const svgChartHtml = this.generateSvgChart(report.timeComplexity, report.spaceComplexity);
 
     return `<!DOCTYPE html>
-<html lang="${vscode.env.language.toLowerCase().startsWith('pt') ? 'pt-BR' : 'en'}">
+<html lang="${this.messages.htmlLang}">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline' ${cspSource} https://unpkg.com; script-src 'nonce-${nonce}' https://unpkg.com 'unsafe-inline'; connect-src https://unpkg.com; font-src https://unpkg.com;">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Análise de Complexidade Assintótica</title>
+  <title>${this.messages.webviewTitle}</title>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <style>
@@ -823,17 +826,16 @@ export class ExplanationWebviewPanel {
   <!-- ABA 2: GRÁFICO ASSINTÓTICO DE CRESCIMENTO -->
   <div id="tab-chart" class="tab-content">
     <section>
-      <h2><ion-icon name="trending-up-outline" class="section-icon"></ion-icon> Curvas de Crescimento Assintótico (Gráfico Didático)</h2>
+      <h2><ion-icon name="trending-up-outline" class="section-icon"></ion-icon> ${this.messages.growthCurvesTitle}</h2>
       <p style="opacity: 0.8; font-size: 0.9em; margin-bottom: 14px;">
-        O gráfico abaixo ilustra como o consumo de tempo ou memória escala à medida que o tamanho da entrada <code>n</code> cresce para o infinito. 
-        A curva destacada representa a complexidade identificada para a função <strong>${this.escapeHtml(report.functionName)}</strong>.
+        ${this.messages.growthCurvesSubtitle} <strong>${this.escapeHtml(report.functionName)}</strong>.
       </p>
       
       ${svgChartHtml}
     </section>
 
     <section>
-      <h2><ion-icon name="bar-chart-outline" class="section-icon"></ion-icon> Escala Linear de Ordenação</h2>
+      <h2><ion-icon name="bar-chart-outline" class="section-icon"></ion-icon> ${this.messages.scaleTitle}</h2>
       <div class="scale">${scaleHtml}</div>
     </section>
   </div>
@@ -841,44 +843,43 @@ export class ExplanationWebviewPanel {
   <!-- ABA 3: FUNDAMENTAÇÃO TEÓRICA (CORMEN ET AL. - CLRS) -->
   <div id="tab-theory" class="tab-content">
     <div class="theory-card">
-      <h3><ion-icon name="school-outline" class="section-icon"></ion-icon> O que é a Notação Big-O (<code>O</code>)?</h3>
+      <h3><ion-icon name="school-outline" class="section-icon"></ion-icon> ${this.messages.whatIsBigOTitle}</h3>
       <p>
-        Segundo a obra clássica <em>Introduction to Algorithms</em> (Cormen, Leiserson, Rivest e Stein - Capítulo 3), a <strong>Notação Big-O</strong> (<code>O</code>-notation) é utilizada para definir um <strong>limite superior assintótico</strong> (asymptotic upper bound) para a taxa de crescimento de um algoritmo.
+        ${this.messages.whatIsBigODesc}
       </p>
       <div class="formula-box">
-        <strong>Definição Matemática Formal (Cormen et al.):</strong><br>
-        Para uma dada função <code>g(n)</code>, definimos <code>O(g(n))</code> como o conjunto de funções:<br><br>
-        <code>O(g(n)) = { f(n) : existem constantes positivas c e n₀ tais que 0 ≤ f(n) ≤ c · g(n) para todo n ≥ n₀ }</code>
+        <strong>${this.messages.formalDefTitle}</strong><br>
+        ${this.messages.formalDefFormula}
       </div>
       <p>
-        Em termos didáticos: a notação <code>O(g(n))</code> garante que, para entradas suficientemente grandes (<code>n ≥ n₀</code>), o tempo ou memória consumidos pelo algoritmo nunca ultrapassarão um múltiplo constante de <code>g(n)</code>. É a medida padrão para o <strong>pior caso</strong> (worst-case scenario).
+        ${this.messages.formalDefExplanation}
       </p>
       <div class="citation">
-        Ref: CORMEN, T. H.; LEISERSON, C. E.; RIVEST, R. L.; STEIN, C. <em>Algoritmos: Teoria e Prática</em>. 3ª ed. Elsevier / Campus, Cap. 3 (Crescimento de Funções).
+        ${this.messages.citationRef}
       </div>
     </div>
 
     <div class="theory-card">
-      <h3><ion-icon name="swap-horizontal-outline" class="section-icon"></ion-icon> Complexidade de Tempo vs. Complexidade de Espaço</h3>
+      <h3><ion-icon name="swap-horizontal-outline" class="section-icon"></ion-icon> ${this.messages.timeVsSpaceTitle}</h3>
       <p>
-        Ao analisar algoritmos no modelo RAM (Random-Access Machine) proposto por Cormen et al., avaliamos dois recursos fundamentais:
+        ${this.messages.timeVsSpaceIntro}
       </p>
       <ul>
         <li>
-          <strong>Complexidade de Tempo (<code>T(n)</code>):</strong> Mede o número de operações fundamentais (comparações, atribuições, laços) executadas em função do tamanho da entrada <code>n</code>. Determina a velocidade de execução do algoritmo.
+          ${this.messages.timeComplexityDesc}
         </li>
         <li style="margin-top: 8px;">
-          <strong>Complexidade de Espaço (<code>S(n)</code>):</strong> Mede a quantidade de memória adicional (chamada de <em>espaço auxiliar</em>) exigida pela função durante a execução além dos dados de entrada. Inclui variáveis locais, pilhas de chamadas recursivas e arranjos temporários.
+          ${this.messages.spaceComplexityDesc}
         </li>
       </ul>
       <p style="font-size: 0.9em; opacity: 0.85; margin-top: 10px;">
-        <em>Nota de Trade-off (Cormen Cap. 1 & 2):</em> Frequentemente, algoritmos realizam uma troca (trade-off) entre tempo e espaço — utilizando mais memória para pré-calcular resultados e assim reduzir o tempo de execução (ex.: Tabelas Hash ou Programação Dinâmica).
+        ${this.messages.tradeoffNote}
       </p>
     </div>
   </div>
 
   <p class="disclaimer">
-    <strong>Disclaimer Técnico:</strong> Esta análise é realizada via parse de AST (Abstract Syntax Tree) e heurísticas sintáticas. A notação assintótica reflete estimativas teóricas aproximadas conforme os padrões descritos em Cormen et al.
+    ${this.messages.technicalDisclaimer}
   </p>
 
   <script nonce="${nonce}">
