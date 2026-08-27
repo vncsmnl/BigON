@@ -18,4 +18,4 @@ Execute `BigON: Alternar Anotações In-line` para alternar as marcações de cu
 
 Nas configurações do editor, altere `BigON.enableCodeLens`, `BigON.enableInlineDecorations` ou `BigON.enableHover`. As três opções são booleanas e têm valor padrão `true`.
 
-_Verified against `main`@`077ea84` on 2026-08-22._
+_Verified against `main`@`207db84` on 2026-08-27._

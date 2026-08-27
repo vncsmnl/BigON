@@ -68,7 +68,8 @@ BigON/
 │   │   └── universal/       # Parsers sintáticos universais para linguagens sem AST nativa no TS
 │   │       ├── types.ts     # Tipos para a AST universal (UniversalFunctionNode, etc.)
 │   │       ├── universalParserRouter.ts # Roteador de linguagem
-│   │       └── parsers/     # Parsers sintáticos específicos (Python, Ruby, C/C++)
+│   │       └── parsers/     # Parsers sintáticos (Python, Ruby, C/C++, Go, Java)
+│   ├── i18n/                # Catálogo de Internacionalização (en.ts, pt-BR.ts)
 │   └── ui/                  # Componentes de Interface de Usuário no VS Code
 │       ├── codeLensProvider.ts # Exibição de cabeçalhos sobre funções no editor
 │       ├── hoverProvider.ts    # Tooltip com resumo ao passar o mouse sobre a função
@@ -76,9 +77,11 @@ BigON/
 │       └── webviewPanel.ts     # Painel educacional interativo com gráficos Big-O
 └── test/                    # Suíte de testes unitários com Jest
     ├── analyzer.test.ts      # Testes do motor AST (JavaScript/TypeScript)
-    ├── multiLanguage.test.ts # Testes para parsers universais (Python, Ruby, C/C++)
-    └── scriptLevel.test.ts    # Testes para scripts fora de escopos de função
-```
+    ├── multiLanguage.test.ts # Testes para parsers universais (Python, Ruby, C/C++, Go, Java)
+    ├── scriptLevel.test.ts   # Testes para scripts fora de escopos de função
+    ├── coverageGaps.test.ts  # Testes para blocos independentes e arestas de cobertura
+    ├── i18n.test.ts          # Testes para seleção de idiomas e chaves de mensagens
+    └── manifest.test.ts      # Testes para integridade do package.json
 
 ---
 
@@ -99,28 +102,32 @@ npx jest --watch
 1. Abra a pasta do projeto no VS Code.
 2. Pressione `F5` (ou clique na aba **Run and Debug** e selecione **Launch Extension**).
 3. Uma nova janela do VS Code chamada **[Extension Development Host]** se abrirá.
-4. Na janela de desenvolvimento, abra ou crie qualquer arquivo `.js`, `.ts`, `.py`, `.rb`, `.cpp` ou `.c`.
+4. Na janela de desenvolvimento, abra ou crie qualquer arquivo `.js`, `.ts`, `.py`, `.rb`, `.cpp`, `.c`, `.go` ou `.java`.
 5. Observe o **CodeLens** sobre as funções, as **decorações in-line** de custo nas linhas e clique em `[Ver Explicação]` para abrir o Webview interativo.
 
 ---
 
 ## Como Adicionar Suporte a uma Nova Linguagem
 
-O BigON suporta análise via AST nativa para JS/TS usando a TypeScript Compiler API e parsers sintáticos heurísticos para Python, Ruby e C/C++. Arquivos C são encaminhados ao parser C++ universal.
+O BigON suporta análise via AST nativa para JS/TS usando a TypeScript Compiler API e parsers sintáticos heurísticos para Python, Ruby, C/C++, Go e Java.
 
-Para adicionar suporte a uma nova linguagem (por exemplo, **Go** ou **Java**):
+Para adicionar suporte a uma nova linguagem (por exemplo, **Rust** `.rs` ou **PHP** `.php`):
 
 ### Passo 1: Criar o Parser em `src/analyzer/universal/parsers/`
-Crie um novo arquivo, ex: `src/analyzer/universal/parsers/goUniversalParser.ts`, implementando a varredura das funções e estruturas de laços/recursão:
+Crie um novo arquivo, ex: `src/analyzer/universal/parsers/rustUniversalParser.ts`, implementando a varredura das funções e estruturas de laços/recursão com suporte ao construtor `Messages`:
 
 ```typescript
 import { UniversalFunctionNode, UniversalLoopNode } from '../types';
+import { Messages } from '../../../i18n/messages';
+import { getMessages } from '../../../i18n';
 
-export class GoUniversalParser {
+export class RustUniversalParser {
+  constructor(private messages: Messages = getMessages('en')) {}
+
   public parse(code: string): UniversalFunctionNode[] {
     const functions: UniversalFunctionNode[] = [];
-    // 1. Identificar assinaturas de função (ex: func nome() { ... })
-    // 2. Extrair laços (for i := 0; i < n; i++)
+    // 1. Identificar assinaturas de função (ex: fn nome() { ... })
+    // 2. Extrair laços (for, loop, while)
     // 3. Detectar chamadas recursivas e alocações de memória
     return functions;
   }
@@ -132,9 +139,9 @@ Em [`src/analyzer/universal/universalParserRouter.ts`](../src/analyzer/universal
 1. Importe seu parser.
 2. Atualize a função `normalizeLanguageId`:
    ```typescript
-   if (lang === 'go' || ext === 'go') return 'go';
+   if (lang === 'rust' || ext === 'rs') return 'rust';
    ```
-3. Instancie o parser na classe `UniversalParserRouter` e adicione o `if/else` correspondente no método `parse()`.
+3. Instancie o parser com `messages` e adicione o `if/else` correspondente no método `parse()`. Atualize também `src/analyzer/complexityEngine.ts`.
 
 ### Passo 3: Registrar Eventos no `package.json` e `src/extension.ts`
 1. Em `package.json`, adicione o id da linguagem em `activationEvents`:
@@ -145,12 +152,14 @@ Em [`src/analyzer/universal/universalParserRouter.ts`](../src/analyzer/universal
      "onLanguage:python",
      "onLanguage:ruby",
      "onLanguage:cpp",
-     "onLanguage:go"
+     "onLanguage:go",
+     "onLanguage:java",
+     "onLanguage:rust"
    ]
    ```
 2. Em [`src/extension.ts`](../src/extension.ts), inclua o id da linguagem na função `isSupportedDocument`:
    ```typescript
-   return ['javascript', 'typescript', 'python', 'ruby', 'cpp', 'go'].includes(norm);
+   return ['javascript', 'typescript', 'python', 'ruby', 'cpp', 'go', 'java', 'rust'].includes(norm);
    ```
 
 ### Passo 4: Criar Testes Unitários
@@ -221,3 +230,5 @@ describe('Novo Cenário de Complexidade', () => {
    - Abra a Pull Request descrevendo claramente o que foi alterado e como testar.
 
 Obrigado por ajudar a tornar o **BigON** cada vez melhor!
+
+_Verified against `main`@`207db84` on 2026-08-27._

@@ -25,4 +25,4 @@
 | `BigON.enableInlineDecorations` | boolean | `true` |
 | `BigON.enableHover` | boolean | `true` |
 
-_Verified against `main`@`077ea84` on 2026-08-22._
+_Verified against `main`@`207db84` on 2026-08-27._

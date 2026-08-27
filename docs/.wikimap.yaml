@@ -3,26 +3,22 @@ engine: none
 pages:
   - path: README.md
     mode: none
-    adopted: true
-    documents: [README.md, docs/**]
+    documents: [package.json, src/**]
   - path: getting-started.md
     mode: tutorial
-    documents: [package.json, README.md, tsconfig.json]
+    documents: [package.json, src/extension.ts]
   - path: how-to/use-the-extension.md
     mode: how-to
-    documents: [package.json, src/extension.ts, src/ui/**]
+    documents: [src/ui/**, src/extension.ts, package.json]
   - path: how-to/add-language-support.md
     mode: how-to
-    adopted: true
-    documents: [docs/CONTRIBUTING.md, src/analyzer/universal/**, package.json]
-  - path: CONTRIBUTING.md
-    mode: how-to
-    adopted: true
-    documents: [docs/CONTRIBUTING.md, package.json, src/**, test/**]
-  - path: ARCHITECTURE.md
-    mode: explanation
-    adopted: true
-    documents: [src/**, package.json]
+    documents: [src/analyzer/universal/**, src/i18n/**, src/extension.ts, package.json]
   - path: reference.md
     mode: reference
     documents: [package.json]
+  - path: ARCHITECTURE.md
+    mode: explanation
+    documents: [src/**]
+  - path: CONTRIBUTING.md
+    mode: how-to
+    documents: [package.json, tsconfig.json, jest.config.js, test/**]

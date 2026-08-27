@@ -24,6 +24,6 @@ npm test
 
 ## Executar no VS Code
 
-Abra a raiz do projeto no VS Code e pressione `F5` para iniciar o Extension Development Host. Abra um arquivo JavaScript, TypeScript, Python, Ruby, C++ ou C para ativar a análise.
+Abra a raiz do projeto no VS Code e pressione `F5` para iniciar o Extension Development Host. Abra um arquivo JavaScript, TypeScript, Python, Ruby, C++, C, Go ou Java para ativar a análise em tempo real.
 
-_Verified against `main`@`077ea84` on 2026-08-22._
+_Verified against `main`@`207db84` on 2026-08-27._

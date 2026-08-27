@@ -38,7 +38,7 @@ npm run compile
 Para debugar a extensão no VS Code:
 1. Abra a pasta do projeto no VS Code.
 2. Pressione `F5` para iniciar o **Extension Development Host**.
-3. Na janela em modo de desenvolvimento, abra um arquivo `.ts`, `.js`, `.py`, `.rb` ou `.cpp` para ver as análises em tempo real.
+3. Na janela em modo de desenvolvimento, abra um arquivo `.ts`, `.js`, `.py`, `.rb`, `.cpp`, `.c`, `.go` ou `.java` para ver as análises em tempo real.
 
 ---
 
@@ -46,3 +46,5 @@ Para debugar a extensão no VS Code:
 
 Se você encontrar um bug ou tiver ideias para novas regras de análise e suporte a outras linguagens, abra uma issue no nosso repositório no GitHub:
 👉 [GitHub Issues - BigON](https://github.com/vncsmnl/BigON/issues)
+
+_Verified against `main`@`207db84` on 2026-08-27._

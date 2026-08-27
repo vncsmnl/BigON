@@ -16,14 +16,14 @@ O sistema é dividido estritamente em duas grandes camadas:
 ```mermaid
 graph TD
     A["Editor VS Code (Documento Ativo)"] -->|TextDocument / evento onChange| B["extension.ts (Listener Debounced 300ms)"]
-    B -->|código em string + languageId| C["ComplexityEngine.analyzeCode()"]
+    B -->|código em string + languageId + locale| C["ComplexityEngine.analyzeCode()"]
     
     C -->|TS / JS| D["ASTParser (TypeScript Compiler API)"]
     D --> E["LoopAnalyzer"]
     D --> F["RecursionAnalyzer"]
     D --> G["SpaceAnalyzer"]
     
-    C -->|Python / Ruby / C++| H["UniversalParserRouter"]
+    C -->|Python / Ruby / C++ / Go / Java| H["UniversalParserRouter"]
     H --> I["Parsers Sintáticos Universais (Regex/AST)"]
     
     E & F & G & I --> J["Geração do FunctionComplexityReport"]
@@ -42,8 +42,9 @@ graph TD
 ### 1. `ComplexityEngine` (`src/analyzer/complexityEngine.ts`)
 Atua como a fachada e orquestrador central. Ao receber o código-fonte de um arquivo:
 - Normaliza a extensão/linguagem via `normalizeLanguageId()`.
+- Obtém o catálogo i18n correspondente via `getMessages(locale)`.
 - Se a linguagem for `typescript` ou `javascript`, utiliza a **TypeScript Compiler API** (`ts.createSourceFile`) para gerar uma AST completa e precisa de nós tipados (`ts.Node`).
-- Se a linguagem for `python`, `ruby` ou `cpp`, roteia para o `UniversalParserRouter`.
+- Se a linguagem for `python`, `ruby`, `cpp`, `c`, `go` ou `java`, roteia para o `UniversalParserRouter`.
 
 ### 2. Análise AST Nativa (TS/JS)
 
@@ -80,6 +81,8 @@ Para linguagens que não utilizam o compilador TypeScript nativo, o BigON utiliz
 - **`PythonUniversalParser`**: Analisa a indentação característica do Python, laços `for x in range(...)`, `while`, e chamadas recursivas.
 - **`RubyUniversalParser`**: Analisa blocos `def...end`, `.each`, `times`, `while`.
 - **`CppUniversalParser`**: Analisa C e C++ por meio de padrões textuais para laços `for`, `while`, ponteiros e vetores `std::vector`.
+- **`GoUniversalParser`**: Analisa Go (`.go`), incluindo funções regulares, métodos com struct receiver `func (s *Struct) Method(...)`, laços `for` e recursões.
+- **`JavaUniversalParser`**: Analisa Java (`.java`), cobrindo métodos de classe, anotações (ex: `@Override`), laços `for`/`while` e recursões com `this.`.
 
 ---
 
@@ -98,7 +101,7 @@ Utiliza `vscode.window.createTextEditorDecorationType` para renderizar anotaçõ
 Implementa `vscode.HoverProvider`. Quando o desenvolvedor posiciona o cursor do mouse sobre o nome de uma função, o VS Code exibe uma janela tooltip com um resumo explicativo formatado em Markdown com ícones e justificativas.
 
 ### 4. `ExplanationWebviewPanel` (`src/ui/webviewPanel.ts`)
-Abre um painel lateral/central rico feito com HTML5, CSS3 avançado (modo escuro elegante, efeitos de iluminação e componentes visuais) e um elemento `<canvas>` com gráficos dinâmicos das curvas de crescimento Big-O (`O(1)`, `O(log n)`, `O(n)`, `O(n log n)`, `O(n²)`, `O(2^n)`), ajudando o desenvolvedor a entender intuitivamente a escalabilidade do algoritmo.
+Abre um painel lateral/central rico feito com HTML5, CSS3 avançado (modo escuro elegante, efeitos de iluminação e componentes visuais) e um elemento `<canvas>` com gráficos dinâmicos das curvas de crescimento Big-O (`O(1)`, `O(log n)`, `O(n)`, `O(n log n)`, `O(n²)`, `O(2^n)`), além de fundamentação teórica formal baseada no CLRS (Cormen et al.).
 
 ---
 
@@ -165,3 +168,5 @@ export interface FunctionComplexityReport {
 3. **Gerenciamento de Memória (`reportsCache`)**:
    - Os relatórios de funções por arquivo são mantidos em uma tabela `Map<string, FunctionComplexityReport[]>`.
    - Quando o arquivo é fechado no editor, o evento `onDidCloseTextDocument` remove a entrada do cache para prevenir vazamento de memória.
+
+_Verified against `main`@`207db84` on 2026-08-27._

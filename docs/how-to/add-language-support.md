@@ -4,11 +4,11 @@ O suporte a uma linguagem é implementado pelo parser universal e pelo roteament
 
 ## 1. Criar o parser
 
-Adicione um parser em `src/analyzer/universal/parsers/`. O parser deve produzir os tipos definidos em `src/analyzer/universal/types.ts`.
+Adicione um parser em `src/analyzer/universal/parsers/` (ex: `goUniversalParser.ts`, `javaUniversalParser.ts`). O parser deve receber `messages: Messages = getMessages('en')` no construtor para suporte a i18n e produzir os tipos definidos em `src/analyzer/universal/types.ts`.
 
 ## 2. Registrar o parser
 
-Atualize `src/analyzer/universal/universalParserRouter.ts` para normalizar o identificador da linguagem e encaminhar o código ao novo parser.
+Atualize `src/analyzer/universal/universalParserRouter.ts` para normalizar o identificador da linguagem e encaminhar o código ao novo parser instanciado com `messages`. Atualize também o roteamento em `src/analyzer/complexityEngine.ts`.
 
 ## 3. Ativar a extensão
 
@@ -18,7 +18,7 @@ Adicione o evento `onLanguage:<id>` em `package.json` e inclua o identificador n
 
 Adicione casos em `test/multiLanguage.test.ts` para laços, recursão e outros padrões que o parser deve reconhecer. Execute `npm test` antes de abrir a alteração.
 
-_Verified against `main`@`077ea84` on 2026-08-22._
+_Verified against `main`@`207db84` on 2026-08-27._
 
 ## Adicionar tradução da interface
 
