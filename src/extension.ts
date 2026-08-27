@@ -114,10 +114,15 @@ export function activate(context: vscode.ExtensionContext) {
       let reportToOpen = report;
 
       if (!reportToOpen && vscode.window.activeTextEditor) {
-        const doc = vscode.window.activeTextEditor.document;
+        const editor = vscode.window.activeTextEditor;
+        const doc = editor.document;
         const functions = getOrAnalyzeReports(doc);
         if (functions.length > 0) {
-          reportToOpen = functions[0];
+          const cursorLine = editor.selection.active.line + 1;
+          reportToOpen =
+            functions.find((fn) => cursorLine >= fn.startLine && cursorLine <= fn.endLine) ||
+            functions.find((fn) => cursorLine <= fn.startLine) ||
+            functions[0];
         }
       }
 

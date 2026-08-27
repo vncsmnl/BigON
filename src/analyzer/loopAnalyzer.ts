@@ -62,6 +62,13 @@ export class LoopAnalyzer {
         ts.isForInStatement(child)
       ) {
         results.push(this.analyzeLoop(child as ts.Statement));
+      } else if (
+        ts.isFunctionDeclaration(child) ||
+        ts.isFunctionExpression(child) ||
+        ts.isArrowFunction(child) ||
+        ts.isMethodDeclaration(child)
+      ) {
+        return;
       } else {
         this.findChildLoops(child, results);
       }
@@ -191,7 +198,8 @@ export class LoopAnalyzer {
           !ts.isWhileStatement(stmt) &&
           !ts.isDoStatement(stmt) &&
           !ts.isForOfStatement(stmt) &&
-          !ts.isForInStatement(stmt)
+          !ts.isForInStatement(stmt) &&
+          !ts.isFunctionDeclaration(stmt)
         ) {
           directText += stmt.getText(this.sourceFile) + '\n';
         }

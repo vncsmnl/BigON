@@ -88,7 +88,7 @@ export class CppUniversalParser {
     }
 
     const mainLoops = this.extractLoops(topLevelLines);
-    if (mainLoops.length > 0 || functions.length === 0) {
+    if (functions.length === 0) {
       const scriptText = topLevelLines.map((l) => l.text).join('\n');
       const hasDivisionInBody =
         scriptText.includes('/ 2') ||
@@ -96,11 +96,32 @@ export class CppUniversalParser {
         scriptText.includes('>> 1') ||
         scriptText.includes('>>= 1');
 
-      functions.unshift({
+      functions.push({
         type: 'function',
         name: '<script principal>',
         startLine: 1,
         endLine: lines.length,
+        bodyText: scriptText,
+        loops: mainLoops,
+        recursiveCalls: [],
+        hasDivisionInBody,
+      });
+    } else if (mainLoops.length > 0) {
+      const scriptText = topLevelLines.map((l) => l.text).join('\n');
+      const hasDivisionInBody =
+        scriptText.includes('/ 2') ||
+        scriptText.includes('/= 2') ||
+        scriptText.includes('>> 1') ||
+        scriptText.includes('>>= 1');
+
+      const startLine = topLevelLines[0]?.line || 1;
+      const endLine = topLevelLines[topLevelLines.length - 1]?.line || lines.length;
+
+      functions.push({
+        type: 'function',
+        name: '<script principal>',
+        startLine,
+        endLine,
         bodyText: scriptText,
         loops: mainLoops,
         recursiveCalls: [],

@@ -22,7 +22,7 @@ export class SpaceAnalyzer {
       }
     }
 
-    const bodyText = functionNode.getText(this.sourceFile);
+    const bodyText = this.getDirectFunctionText(functionNode);
     if (
       bodyText.includes('new Array(') ||
       bodyText.includes('.fill(') ||
@@ -48,5 +48,23 @@ export class SpaceAnalyzer {
     }
 
     return { spaceComplexity, explanation };
+  }
+
+  private getDirectFunctionText(node: ts.Node): string {
+    let directText = '';
+    const visit = (child: ts.Node) => {
+      if (
+        child !== node &&
+        (ts.isFunctionDeclaration(child) ||
+          ts.isFunctionExpression(child) ||
+          ts.isArrowFunction(child) ||
+          ts.isMethodDeclaration(child))
+      ) {
+        return;
+      }
+      directText += ' ' + child.getText(this.sourceFile);
+    };
+    ts.forEachChild(node, visit);
+    return directText.length > 0 ? directText : node.getText(this.sourceFile);
   }
 }

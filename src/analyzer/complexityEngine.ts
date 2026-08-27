@@ -278,7 +278,7 @@ export class ComplexityEngine {
     }
 
     const permRegex = /\b(itertools\.)?permutations\b|\b(std::)?next_permutation\b|\b(std::)?prev_permutation\b|\.permutation\b/i;
-    const bodyText = node.body ? node.body.getText(sourceFile) : '';
+    const bodyText = node.body ? this.getDirectNodeText(node.body, sourceFile) : '';
     const hasPermutationsCall = permRegex.test(bodyText);
 
     if (hasPermutationsCall) {
@@ -408,5 +408,23 @@ export class ComplexityEngine {
     }
 
     return 'função anônima';
+  }
+
+  private getDirectNodeText(node: ts.Node, sourceFile: ts.SourceFile): string {
+    let directText = '';
+    const visit = (child: ts.Node) => {
+      if (
+        child !== node &&
+        (ts.isFunctionDeclaration(child) ||
+          ts.isFunctionExpression(child) ||
+          ts.isArrowFunction(child) ||
+          ts.isMethodDeclaration(child))
+      ) {
+        return;
+      }
+      directText += ' ' + child.getText(sourceFile);
+    };
+    ts.forEachChild(node, visit);
+    return directText.length > 0 ? directText : node.getText(sourceFile);
   }
 }
