@@ -7,10 +7,15 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/spec
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-08-27
+
 ### Added
 - **Suporte a Go e Java**: Adicionados parsers universais (`goUniversalParser`, `javaUniversalParser`) para análise heurística de complexidade em arquivos `.go` e `.java`, incluindo detecção de laços lineares/logarítmicos, métodos de classe/structs e recursão. Contribuição de [@felipersteles](https://github.com/felipersteles) via PR [#3](https://github.com/vncsmnl/BigON/pull/3). Resolve [vncsmnl/BigON#1](https://github.com/vncsmnl/BigON/issues/1).
+- **Internacionalização Completa da Interface (i18n)**: UI do Webview, gráficos SVG, fundamentação teórica Cormen (CLRS), CodeLens, balões de hover e passos de raciocínio da AST agora são 100% dinâmicos e sincronizados com o idioma do VS Code (`en` como padrão e `pt-BR` para locales `pt-*`).
 
-## [1.0.4] - 2026-08-23
+### Fixed
+- **Isolamento de Análise por Bloco de Função**: Corrigida a sobreposição indevida do `<script principal>` que mascarava funções em nível de arquivo em linguagens com suporte universal. O comando de explicação agora resolve precisamente a função sob a posição do cursor.
+- **Ativação e Decorações no VS Code para Go e Java**: Corrigido o filtro `isSupportedDocument` em `src/extension.ts` para que decorações e hovers sejam exibidos normalmente em arquivos `.go` e `.java`.
 
 ### Fixed
 - **Ativação por comandos**: adicionados eventos `onCommand` para garantir que a extensão seja ativada ao executar qualquer comando pelo `.vsix`.

@@ -2,7 +2,7 @@
   "name": "BigON",
   "displayName": "BigON",
   "description": "Analisa a complexidade assintótica de código-fonte em tempo real.",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "publisher": "vncsmnl",
   "engines": {
     "vscode": "^1.80.0"
